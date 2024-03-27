@@ -21,32 +21,24 @@ SpiffWorkflow 由两类不同的对象组成：
 
 在工作流上下文中，规范是工作流的模型，它描述了每当执行工作流时可以采用的每一条路径。实例是规范的特定实例化。它描述了当前状态或工作流运行时实际采用的路径
 
-In the task context, a specification is a model for how a task behaves.  It describes the mechanisms for deciding *whether
-there are preconditions for running an associated task*, *how to decide whether they are met*, and *what it means to complete
-(successfully or unsuccessfully)*.  An instance describes the *state of the task, as it pertains to a particular workflow* and
-*contains the data used to manage that state*.
+在任务上下文中，规范是任务行为的模型。它描述了决定运行相关任务是否存在先决条件的机制，如何决定是否满足这些先决条件，以及完成（成功或失败）意味着什么。实例描述任务的状态，因为它属于特定的工作流，并包含用于管理该状态的数据。
+规范是唯一的，而实例则不是。工作流有一个模型，特定任务有一个规范。
+想象一个有循环的工作流。循环在规范中定义一次，但可能有许多任务与构成循环的每个规范相关。
 
-Specifications are unique, whereas instances are not.  There is *one* model of a workflow, and *one* specification for a particular task.
+在 BPMN 示例 (:ref:`quickstart`), 我们描述了商品选择过程:
 
-Imagine a workflow with a loop.  The loop is defined once in the specification, but there can be many tasks associated with
-each of the specs that comprise the loop.
+    开始 -> 选择和定制商品 -> 继续购物?
 
-In our BPMN example (:ref:`quickstart`), we described a product selection process:
+由于客户可能会选择多个产品，因此我们的实例外观取决于客户的操作。如果他们选择三种产品，然后我们得到以下路径::
 
-    Start -> Select and Customize Product -> Continue Shopping?
-
-Since the customer can potentially select more than one product, how our instance looks depends on the customer's actions.  If
-they choose three products, then we get the following path::
-
-    Start --> Select and Customize Product -> Continue Shopping? -> |
+    开始 --> 选择和定制商品 -> 继续购物? -> |
           /-------------------------------------------------------- /
-          |-> Select and Customize Product -> Continue Shopping? -> |
+          |-> 继续购物 -> 继续购物? -> |
           /-------------------------------------------------------- /
-          |-> Select and Customize Product -> Continue Shopping?
+          |-> 继续购物 -> 继续购物?
 
-There is *one* TaskSpec describing product selection and customization and *one* TaskSpec that determines whether to add more
-items, but it may execute any number of times, resulting in as many Tasks for these TaskSpecs as the number of products the
-customer selects.
+有*一个*TaskSpec描述产品选择和定制，*一个*TaskSpec决定是否添加更多项，但它可以执行任意次数，从而导致这些TaskSpec的任务数量与产品数量一样多
+客户选择。
 
 A Task Spec may have multiple inputs (if there are multiple paths to reach it) but a Task has only one parent.  A specification
 may contains cycles, but an instantiated workflow is *always* a tree.
