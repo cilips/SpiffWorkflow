@@ -19,9 +19,7 @@ SpiffWorkflow 由两类不同的对象组成：
 - **Specification 对象**, 其表示结构和行为的定义，并源自 :code:`WorkflowSpec` and :code:`TaskSpec`
 - **Instance 对象**, 表示正在运行的工作流的状态 (:code:`Workflow`/:code:`BpmnWorkflow` and :code:`Task`)
 
-In the workflow context, a specification is model of the workflow, an abstraction that describes *every path that could
-be taken whenever the workflow is executed*.  An instance is a particular instantiation of a specification.  It describes *the
-current state* or *the path(s) that were actually taken when the workflow ran*.
+在工作流上下文中，规范是工作流的模型，它描述了每当执行工作流时可以采用的每一条路径。实例是规范的特定实例化。它描述了当前状态或工作流运行时实际采用的路径
 
 In the task context, a specification is a model for how a task behaves.  It describes the mechanisms for deciding *whether
 there are preconditions for running an associated task*, *how to decide whether they are met*, and *what it means to complete
