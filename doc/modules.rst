@@ -1,54 +1,48 @@
-Modules
+模块
 =======
 
-SpiffWorkflow consists several modules.  The modules included in this package and reasons for its structure are historical.
-The library originally consisted of only the core library specs; it was later extended to provide BPMN support (in a way
-that did not entirely fit in with the operation of the original library); then this BPMN support was further refined to
-provide support for custom extensions to the BPMN spec.  Recent redevlopment has mainly focused on BPMN, with minimal
-changes to the core library.  Therefore there are fairly significant differences between the BPMN and non-BPMN parts of the
-library.  We're working towards making these consistent!
+SpiffWorkflow由几个模块组成。该包中包含的模块及其结构原因都是历史性的。
+该库最初只包含核心库规范；它后来被扩展为提供BPMN支持（在某种程度上不完全符合原始库的运作）；然后这种BPMN支持被进一步细化为
+为BPMN规范的自定义扩展提供支持。最近的重新开发主要集中在BPMN上对核心库的更改。因此，的BPMN和非BPMN部分之间存在相当显著的差异
+图书馆我们正在努力使这些保持一致！
 
-The Core Library
+核心库
 ----------------
 
-The core library provides basic implementations of a large set of task spec types and basic workflow execution
-capabilities.
+核心库提供了大量任务规范类型和基本工作流执行功能的基本实现。
 
-- Specs implementations are in :code:`specs`
-- Workflow implementation is in :code:`workflow.py`
-- Task implementation is in :code:`task.py`, with utilities for iteration and filtering in :code:`util.task.py`
+- 规范实现在 :code:`specs`
+- 工作流工作流 :code:`workflow.py`
+- 任务工作流 :code:`task.py`, 具有用于在中进行迭代和筛选的实用程序在 :code:`util.task.py`
 
-It is documented in :doc:`core/index`.
+它记录在 :doc:`core/index`.
 
-Generic BPMN Implementation
+通用BPMN实现
 ---------------------------
 
-This module extends the core implementation to support the parsing and execution of BPMN diagrams.
+该模块扩展了核心实现，以支持BPMN图的解析和执行。
 
-- The base specs of the core library are extended to implement generic BPMN attributes and behavior in
-  :code:`bpmn.specs`.  Task specs are extended in two ways: to provide generic behavior common to all BPMN tasks
-  (:code:`bpmn.specs.mixins.bpmn_spec_mixin.BpmnSpecMixin`) and type-specific behavior (other task specs in
-  :code:`bpmn.specs.mixins`).  The reason is to allow either category of properties to be extended separately.
-- The workflow implementation in the BPMN package handles subworkflows in an entirely different way from the core
-  library.  It also allows for filtering on and iterating over tasks with certain BPMN attributes.
-- A workflow has a scripting environment, in which task specific code will be executed (in the core library, this
-  would be accomplished through an execute task that spawns a subprocess or a custom task spec).
-- The serializer has been completely replaced.
+- 扩展了核心库的基本规范，以实现中的通用BPMN属性和行为
+  :code:`bpmn.specs`.  任务规范以两种方式扩展：为所有BPMN任务提供通用行为
+  (:code:`bpmn.specs.mixins.bpmn_spec_mixin.BpmnSpecMixin`) 和特定类型的行为 (中的其他任务规范
+  :code:`bpmn.specs.mixins`).  原因是允许任意一类属性分别扩展。
+- BPMN包中的工作流实现以与核心库完全不同的方式处理子工作流。它还序列化程序已被完全替换。允许对具有特定BPMN属性的任务进行筛选和迭代。
+- 工作流有一个脚本环境，将在其中执行特定于任务的代码（在核心库中，此将通过产生子流程的执行任务或自定义任务规范来完成）。
+- 序列化程序已被完全替换。
 
-This module is documented in :doc:`bpmn/index`.
+该模块记录在 :doc:`bpmn/index`.
 
-Spiff BPMN Extensions
+Spiff BPMN扩展
 ---------------------
 
-This module extends the generic BPMN implementation with support for custom extensions used by
+此模块扩展了通用BPMN实现，支持由使用的自定义扩展
 `Spiff Arena <https://spiff-arena.readthedocs.io/en/latest/>`_.
 
-Camunda BPMN Extensions
+Camunda BPMN扩展
 -----------------------
 
-This module extends the generic BPMN implementation with limited support for Camunda extensions.
+此模块扩展了通用BPMN实现，对Camunda扩展的支持有限。
 
 .. warning::
 
-    The Camunda package is not under development.  We'll accept contributions from Camunda users, but we are not
-    actively maintaining this package.
+    Camunda一揽子计划尚未开发中。我们将接受Camunda用户的贡献，但我们不会积极维护此包。
