@@ -1,40 +1,28 @@
-Overview
+概述
 ========
 
-This section focuses on the example application rather than the library itself; it is intended to orient people
-attempting to use this documentation, so we won't devote that much space to it (much of it is necessary for a 
-functioning app, but not directly relevant to library use); nonetheless, there is quite a bit of code and a general
-idea of what's here will be helpful.
+本节重点介绍示例应用程序，而不是库本身；它旨在引导人们尝试使用此文档，因此我们不会在其中投入太多空间（其中大部分是一个正常运行的应用程序所必需的，但与库的使用无关）；尽管如此，还是有相当多的代码，对这里的内容有一个大致的了解会有所帮助。
+该应用程序包括几个部分：
+-一个引擎，它使用SpiffWorkflow来运行、解析和序列化工作流
+-用于运行和检查工作流的curses UI，该UI使用引擎
+-具有一些有限功能的命令行UI，它也使用引擎
+我们将主要关注引擎，因为它包含与库的接口，尽管其他组件会提供一些示例。与处理用户输入和在终端中显示信息所需的代码相比，该引擎相当小且简单。
+配置是在python模块中设置的，并使用“-e”参数传递到应用程序中，该参数从该文件加载配置的引擎。这种设置应该使其相对改变发动机的行为。包括以下配置：
 
-The application has several parts:
-
-- an engine, which uses SpiffWorkflow to run, parse, and serialize workflows
-- a curses UI for running and examining Workflows, which uses the engine
-- a command line UI with some limited functionality, which also uses the engine
-
-We'll mainly focus on the engine, as it contains the interface with the library, though a few examples will come from
-the other components.  The engine is quite small and simple compared to the code required to handle user input and
-display information in a terminal.
-
-Configuration is set up in a python module and passed into the application with the `-e` argument, which loads the
-configured engine from this file.  This setup should make it relatively to change the behavior of engine.  The
-following configurations are included:
-
-- :code:`spiff_example.spiff.file`: uses spiff BPMN extensions and serializes to JSON files
-- :code:`spiff_example.spiff.sqlite`: uses spiff BPMN extensions and serializes to SQLite
-- :code:`spiff_example.camunda.default`: uses Camunda extensions and serializes to SQLite
+- :code:`spiff_example.spiff.file`: 使用spiff BPMN扩展并序列化为JSON文件
+- :code:`spiff_example.spiff.sqlite`: 使用spiff BPMN扩展并序列化到SQLite
+- :code:`spiff_example.camunda.default`: 使用Camunda扩展并序列化到SQLite
 
 .. _quickstart:
 
-Quickstart
+快速启动
 ==========
 
-There are several versions of a product ordering process of variying complexity located in the
-:example:`bpmn/tutorial` directory of the repo which contain most of the elements that SpiffWorkflow supports.  These
-diagrams can be viewed in any BPMN editor, but many of them have custom extensions created with
+产品订购过程有几个版本，其复杂性各不相同，位于
+:example:`bpmn/tutorial` repo的目录，其中包含SpiffWorkflow支持的大多数元素。这些图表可以在任何BPMN编辑器中查看，但其中许多都有使用创建的自定义扩展
 `bpmn-js-spiffworflow <https://github.com/sartography/bpmn-js-spiffworkflow>`_.
 
-To add a workflow via the command line and store serialized specs in JSON files:
+要通过命令行添加工作流并将序列化规范存储在JSON文件中，请执行以下操作：
 
 .. code-block:: console
 
@@ -43,67 +31,60 @@ To add a workflow via the command line and store serialized specs in JSON files:
       -b bpmn/tutorial/{top_level,call_activity}.bpmn \
       -d bpmn/tutorial/{product_prices,shipping_costs}.dmn
 
-To run the curses application using serialized JSON files:
+要使用序列化的JSON文件运行curses应用程序，请执行以下操作：
 
 .. code-block:: console
 
    ./runner.py -e spiff_example.spiff.file
 
-Select the 'Start Workflow' screen and start the process.
+选择“启动工作流”屏幕并启动流程。
 
-The Application in Slightly More Depth
+略深入的应用
 ======================================
 
-The application requires the name of a module to load that contains a configuration such as one of those defined above.
+应用程序需要加载的模块的名称，该模块包含如上定义的配置之一。
 
-To start the curses UI using the JSON file serializer:
+要使用JSON文件序列化程序启动curses UI，请执行以下操作：
 
 .. code-block:: console
 
    ./runner.py -e spiff_example.spiff.file
 
-If the application is run with no other arguments, the curses UI will be loaded.
+如果应用程序在没有其他参数的情况下运行，则会加载curses UI。
 
-It is possible to add a workflow spec through the curses UI, but it is going to be somewhat painful to do so unless
-you are a better typist and proofreader than I; therefore, there are also a few command line utilities for handling
-some of the functionality, including adding workflow specs.
+可以通过curses UI添加工作流规范，但这样做会有点痛苦，除非你是一个比我更好的打字员和校对员；因此，还有一些命令行实用程序用于处理一些功能，包括添加工作流规范。
 
-Command line options are
+命令行选项包括
 
-- :code:`add` to add a workflow spec (while taking advantage of your shell's file completion functionality)
-- :code:`list` to list the available specs
-- :code:`run` to run a workflow non-interactively
+- :code:`add` 添加工作流规范（同时利用shell的文件完成功能）
+- :code:`list` 列出可用的规格
+- :code:`run` 以非交互方式运行工作流
 
-Each of these options has a help menu that describes how to use them.
+每个选项都有一个帮助菜单，介绍如何使用它们。
 
-Configuration Modules
+配置模块
 =====================
 
-The three main ways that users can customize the library are:
+用户可以自定义库的三种主要方式是：
 
-- the parser
-- the script engine
-- the serializer
+-解析器
+-脚本引擎
+-序列化程序
 
-We use the configuration module to allow these components to be defined outside the workflow engine itself and passed
-in as parameters to make it easier to experiment. I am somewhat regularly asked questions about why a diagram doesn't
-executed as expected, or how to get the script engine to work a particular way; this is a first pass at setting
-something up that works better for me than configuring the library's test loader and running that in a debugger; I hope
-other people will find it useful as well.
+我们使用配置模块来允许这些组件在工作流引擎本身之外定义并传递作为参数，使实验更容易。我经常被问到为什么图表没有按预期执行，或者如何使脚本引擎以特定方式工作；这是第一次设置
+对我来说，这比配置库的测试加载程序并在调试器中运行它更有效；我希望其他人也会发现它很有用。
 
-We'll go through the configuration in greater detail in later sections, but we'll take a brief look at the simplest
-configuration, :app:`spiff/file.py` here.
+我们将在后面的章节中更详细地介绍配置，但我们将简要介绍最简单的配置，:app:`spiff/file.py` here.
 
-In this file, we'll initialize our parser:
+在这个文件中，我们将初始化我们的解析器：
 
 .. code-block:: python
 
     parser = SpiffBpmnParser()
 
-We don't need to further customize this parser -- this is a builtin parser that can handle DMN files as well as Spiff
-BPMN extensions.
+我们不需要进一步自定义这个解析器——这是一个内置的解析器，可以处理DMN文件以及SpiffBPMN扩展
 
-We also need to initialize a serializer:
+我们还需要初始化一个序列化程序：
 
 .. code-block:: python
 
@@ -112,29 +93,23 @@ We also need to initialize a serializer:
     registry = FileSerializer.configure(SPIFF_CONFIG)
     serializer = FileSerializer(dirname, registry=registry)
 
-JSON specs and workflows will be stored in :code:`wfdata`.  The :code:`registry` is the place where information about
-converting Python objects to and from JSON-serializable dictionary form is maintained.  :code:`SPIFF_CONFIG` tells the
-serializer how to handle objects used internally by Spiff.  Workflows can also contain arbitrary data, so this registry
-can also tell the serializer how to handle any non-serializable data in your workflow.  We'll go over this in more
-detail in :ref:`serializing_custom_objects`.
+JSON规范和工作流将存储在 :code:`wfdata`.  这个 :code:`registry` 是维护有关将Python对象转换为JSON可序列化字典形式以及从JSON可序列化词典形式转换Python对象的信息的地方。 :code:`SPIFF_CONFIG` 告诉序列化程序如何处理Spiff内部使用的对象。工作流也可以包含任意数据，因此此注册表还可以告诉序列化程序如何处理工作流中的任何不可序列化数据。我们将在中详细介绍 :ref:`serializing_custom_objects`.
 
-We initialize a scripting enviroment:
+我们初始化脚本环境：
 
 .. code-block:: python
 
     script_env = TaskDataEnvironment({'datetime': datetime })
     >script_engine = PythonScriptEngine(script_env)
 
-The :code:`PythonScriptEngine` handles execution of script tasks and evaluation of gateway and DMN conditions.
-We'll create the script engine based on it; execution and evaluation will occur in the context of this enviroment.
+这个 :code:`PythonScriptEngine`处理脚本任务的执行以及网关和DMN条件的评估。
+我们将在此基础上创建脚本引擎；执行和评估将在这种环境的背景下进行。
 
-SpiffWorkflow provides a default scripting environment that is suitable for simple applications, but a serious
-application will probably need to extend (or restrict) it in some way.  See :doc:`script_engine` for a few examples.
-Therefore, we have the ability to optionally pass one in.
+SpiffWorkflow提供了一个默认的脚本环境，适用于简单的应用程序，但应用程序可能需要以某种方式扩展（或限制）它。 看 :doc:`script_engine` 示例。因此，我们有能力选择性地传入一个。
 
-In this case, we'll include access to the :code:`datetime` module, because we'll use it in several of our script tasks.
+在这种情况下，我们将包括对 :code:`datetime` 模块，因为我们将在几个脚本任务中使用它。
 
-We also specify some handlers:
+我们还指定了一些处理程序：
 
 .. code-block:: python
 
@@ -144,17 +119,13 @@ We also specify some handlers:
         NoneTask: ManualTaskHandler,
     }
 
-This is a mapping of task spec to task handler and lets our application know how to handle these tasks.
+这是任务规范到任务处理程序的映射，让我们的应用程序知道如何处理这些任务。
 
 .. note::
 
-    In our application, we're also passing in handlers, but this is not a typical use case.  The library knows how to
-    handle all task types except for human (User and Manual) tasks, and those handlers would typically be built into
-    your application.  However, this application needs to be able to deal with more than one set of human task specs,
-    and this is a convenient way to do this.  The library treats None tasks (tasks with no specific type assigned)
-    like Manual Tasks by default.
+    在我们的应用程序中，我们还传递了处理程序，但这不是一个典型的用例。该库知道如何处理除人工（用户和手动）任务之外的所有任务类型，这些处理程序通常会内置到您的应用程序中。然而，这个应用程序需要能够处理多组人工任务规范，这是一种方便的方法。默认情况下，库将“无”任务（未指定特定类型的任务）视为“手动任务”。
 
-We then create our BPMN engine (:app:`engine/engine.py`) using each of these components:
+然后，我们使用以下每个组件创建BPMN引擎(:app:`engine/engine.py`)：
 
 .. code-block:: python
 
