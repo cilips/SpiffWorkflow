@@ -44,10 +44,10 @@ SpiffWorkflow 由两类不同的对象组成：
 
 .. _states:
 
-Understanding Task States
+了解任务状态
 -------------------------
 
-* **PREDICTED** Tasks
+* **PREDICTED** 任务
 
   A predicted task is one that will possibly, but not necessarily run at a future time.  For example, if a task follows a
   conditional gateway, which path is taken won't be known until the gateway is reached and the conditions evaluated.  There
@@ -65,7 +65,7 @@ Understanding Task States
   - **READY**: The preconditions for running this task have been met
   - **STARTED**: The task has started running but has not finished
 
-* **FINISHED** Tasks
+* **FINISHED** 任务
 
   A finished task is one where no further action will be taken.
 
@@ -76,7 +76,7 @@ Understanding Task States
 Tasks start in either a **PREDICTED** or **FUTURE** state, move through one or more **DEFINITE** states, and end in a
 **FINISHED** state.  State changes are determined by task spec methods.
 
-Hooks
+钩子
 -----
 
 SpiffWorkflow executes a Task by calling a series of hooks that are tightly coupled
