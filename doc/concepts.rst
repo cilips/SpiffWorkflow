@@ -37,8 +37,8 @@ SpiffWorkflow 由两类不同的对象组成：
           /-------------------------------------------------------- /
           |-> 继续购物 -> 继续购物?
 
-有*一个*TaskSpec描述产品选择和定制，*一个*TaskSpec决定是否添加更多项，但它可以执行任意次数，从而导致这些TaskSpec的任务数量与产品数量一样多
-客户选择。
+有*一个*TaskSpec描述产品选择和定制，*一个*TaskSpec决定是否添加更多项，但它可以执行任意次数，从而导致这些TaskSpec的任务数量与客户选择产品数量一样多
+。
 
 A Task Spec may have multiple inputs (if there are multiple paths to reach it) but a Task has only one parent.  A specification
 may contains cycles, but an instantiated workflow is *always* a tree.
