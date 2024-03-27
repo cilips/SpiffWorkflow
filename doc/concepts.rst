@@ -65,11 +65,11 @@ SpiffWorkflow 由两类不同的对象组成：
 
 * **FINISHED** 任务
 
-  A finished task is one where no further action will be taken.
+  已完成的任务是指不再采取进一步行动的任务。
 
-  - **COMPLETED**: The task finished successfully.
-  - **ERROR**: The task finished unsucessfully.
-  - **CANCELLED**: The task was cancelled before it ran or while it was running.
+  - **COMPLETED**: 任务已成功完成。
+  - **ERROR**: 任务未成功完成。
+  - **CANCELLED**: 任务在运行前或运行中被取消。
 
 Tasks start in either a **PREDICTED** or **FUTURE** state, move through one or more **DEFINITE** states, and end in a
 **FINISHED** state.  State changes are determined by task spec methods.
