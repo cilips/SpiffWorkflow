@@ -78,21 +78,19 @@ SpiffWorkflow 由两类不同的对象组成：
 
 SpiffWorkflow通过调用一系列与Task State紧密耦合的钩子来执行Task。这些挂钩是：
 
-* `_update_hook`: This method will be run by a task's predecessor when the predecessor completes.  The method checks the
-  preconditions for running the task and returns a boolean indicating whether a task should become **READY**.  Otherwise,
-  the state will be set to **WAITING**.
+* `_update_hook`: 此方法将由任务的前置任务在前置任务完成时运行。该方法检查运行任务的前提条件，并返回一个布尔值，指示任务是否应变为READY。否则，状态将设置为WAITING（等待）。
 
-* `_on_ready_hook`: This method will be run when the task becomes **READY** (but before it runs).
+* `_on_ready_hook`: 此方法将在任务变为READY时（但在运行之前）运行。
 
-* `run_hook`: This method implements the task's behavior when it is run, returning:
+* `run_hook`: 此方法在任务运行时实现任务的行为，返回：
 
-  - :code:`True` if the task completed successfully.  The state will transition to **COMPLETED**.
-  - :code:`False` if the task completed unsucessfully.  The state will transition to **ERRROR**.
-  - :code:`None` if the task has not completed.  The state will transition to **STARTED**.
+  - :code:`True` 如果任务成功完成，则为True。状态将转换为已完成。
+  - :code:`False` 如果任务未成功完成，则为False。状态将转换为ERROR。
+  - :code:`None` 如果任务尚未完成，则无。状态将转换为STARTED。
 
-* `_on_complete_hook`: This method will be run when the task's state is changed to **COMPLETED**.
+* `_on_complete_hook`: 当任务的状态更改为COMPLETED时，将运行此方法。
 
-* `_on_error_hook`: This method will be run when the task's state is changed to **ERROR**.
+* `_on_error_hook`: 当任务的状态更改为ERROR时，将运行此方法。
 
 * `_on_trigger`: This method executes the task's behavior when it is triggered (`Trigger` tasks only).
 
