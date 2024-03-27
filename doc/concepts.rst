@@ -51,12 +51,12 @@ SpiffWorkflow 由两类不同的对象组成：
 
  预测任务是指可能但不一定在未来某个时间运行的任务。例如，如果任务遵循条件网关，那么在到达网关并评估条件之前，将不知道采用哪条路径。有两种类型的预测任务:
 
-  - **MAYBE**: The task is part of a conditional path
-  - **LIKELY** : The task is the default output on a conditional path
+  - **MAYBE**: 任务是条件路径的一部分
+  - **LIKELY** : 任务是条件路径上的默认输出
 
-* **DEFINITE** Tasks
+* **DEFINITE** 任务
 
-  Definite tasks are certain to run as the workflow progresses.
+  随着工作流程的进展，确定的任务肯定会运行
 
   - **FUTURE**: The task will definitely run.
   - **WAITING**: A condition must be met before the task can become **READY**
