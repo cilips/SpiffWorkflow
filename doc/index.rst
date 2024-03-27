@@ -11,7 +11,7 @@
     :target: https://github.com/sartography/SpiffWorkflow/blob/master/COPYING
 
 
-What is SpiffWorkflow?
+SpiffWorkflow 是什么?
 ======================
 
 .. image:: images/logo.png
