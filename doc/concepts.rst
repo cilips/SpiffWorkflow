@@ -58,10 +58,10 @@ SpiffWorkflow 由两类不同的对象组成：
 
   随着工作流程的进展，确定的任务肯定会运行
 
-  - **FUTURE**: The task will definitely run.
-  - **WAITING**: A condition must be met before the task can become **READY**
-  - **READY**: The preconditions for running this task have been met
-  - **STARTED**: The task has started running but has not finished
+  - **FUTURE**: 任务肯定会运行。
+  - **WAITING**: 在任务变为就绪之前，必须满足一个条件
+  - **READY**: 已满足运行此任务的先决条件
+  - **STARTED**: 任务已开始运行，但尚未完成
 
 * **FINISHED** 任务
 
