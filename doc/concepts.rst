@@ -14,10 +14,10 @@ SpiffWorkflow 跟踪任务依赖关系和状态，并提供序列化或反序列
 规范与实例
 ----------------------------
 
-SpiffWorkflow由两类不同的对象组成：
+SpiffWorkflow 由两类不同的对象组成：
 
-- **Specification objects**, which represent definitions of structure and behavior and derive from :code:`WorkflowSpec` and :code:`TaskSpec`
-- **Instance objects**, which represent the state of a running workflow (:code:`Workflow`/:code:`BpmnWorkflow` and :code:`Task`)
+- **Specification 对象**, 其表示结构和行为的定义，并源自 :code:`WorkflowSpec` and :code:`TaskSpec`
+- **Instance 对象**, 表示正在运行的工作流的状态 (:code:`Workflow`/:code:`BpmnWorkflow` and :code:`Task`)
 
 In the workflow context, a specification is model of the workflow, an abstraction that describes *every path that could
 be taken whenever the workflow is executed*.  An instance is a particular instantiation of a specification.  It describes *the
