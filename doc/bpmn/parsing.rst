@@ -1,23 +1,20 @@
-Parsing BPMN
+分析BPMN
 ============
 
-The example application assumes that a :code:`BpmnProcessSpec` will be generated for each process independently of
-starting a workflow and that these will be immediately serialized and provided with a ID.  We'll discuss serialization
-in greater detail later; for now we'll simply note that the file serializer simply writes a JSON representation of the
-spec to a file and uses the filename as the ID.
+示例应用程序假设 :code:`BpmnProcessSpec` 将独立于启动工作流为每个进程生成，并且这些进程将立即序列化并提供ID。
+我们稍后将更详细地讨论序列化；现在我们只需注意，文件序列化程序只需将规范的JSON表示写入文件，并使用文件名作为ID。
 
 .. note::
 
-    This is design choice -- it would be possible to re-parse the specs each time a process was run.
+    这是一种设计选择——每次运行流程时都可以重新解析规范。
 
-Default Parsers
+默认分析器
 ===============
 
 Importing
 ---------
 
-Each of the BPMN modules (:code:`bpmn`, :code:`spiff`, or :code:`camunda`) has a parser that is preconfigured with
-the specs in that module (if a particular TaskSpec is not implemented in the module, :code:`bpmn` TaskSpec is used).
+每个BPMN模块 (:code:`bpmn`, :code:`spiff`, or :code:`camunda`) 具有用该模块中的规范预配置的解析器（如果特定的TaskSpec没有在该模块中实现，:code:`bpmn` TaskSpec is used).
 
 - :code:`bpmn`: :code:`from SpiffWorkflow.bpmn.parser import BpmnParser`
 - :code:`dmn`: :code:`from SpiffWorkflow.dmn.parser import BpmnDmnParser`
@@ -26,38 +23,35 @@ the specs in that module (if a particular TaskSpec is not implemented in the mod
 
 .. note::
 
-    The default parser cannot parse DMN files.  The :code:`BpmnDmnParser` extends the default parser to add that
-    capability.  Both the :code:`spiff` and :code:`camunda` parsers inherit from :code:`BpmnDmnParser`.
+   默认解析程序无法解析DMN文件。这个:code:`BpmnDmnParser` 扩展默认解析器以添加该功能。两者 :code:`spiff` and :code:`camunda` 解析器继承自 :code:`BpmnDmnParser`.
 
-Instantiation of a parser has no required arguments, but there are several optional parameters.
+解析器的实例化没有必需的参数，但有几个可选参数。
 
 Validation
 ----------
 
-The :code:`SpiffWorkflow.bpmn.parser` module also contains a :code:`BpmnValidator`.
+这个 :code:`SpiffWorkflow.bpmn.parser` 模块还包含 :code:`BpmnValidator`.
 
-The default validator validates against the BPMN 2.0 spec.  It is possible to import additional specifications (e.g.
-for custom extensions) as well.
+默认验证器根据BPMN 2.0规范进行验证。还可以导入其他规范（例如，用于自定义扩展）。
 
-By default the parser does not validate, but if a validator is passed in, it will be used on any files added to the parser.
+默认情况下，解析器不进行验证，但如果传入了验证器，它将用于添加到解析器的任何文件
 
 .. code-block:: python
 
     from SpiffWorkflow.bpmn.parser import BpmnParser, BpmnValidator
     parser = BpmnParser(validator=BpmnValidator())
 
-Spec Descriptions
+规格说明
 -----------------
 
-A default set of :code:`decription` attributes for each Task Spec.  The description is intended to be a user-friendly
-representation of the task type.  It is a mapping of XML tag to string.
+默认设置 :code:`decription` 每个任务规范的属性。该描述旨在以用户友好的方式表示任务类型。它是XML标记到字符串的映射。
 
-The default set of descriptions can be found in :code:`SpiffWorkflow.bpmn.parser.spec_descriptions`.
+默认的描述集可以在中找到 :code:`SpiffWorkflow.bpmn.parser.spec_descriptions`.
 
-Creating a BpmnProcessSpec from BPMN Process
+从BPMN流程创建BpmnProcessSpec
 --------------------------------------------
 
-From the :code:`add_spec` method of our BPMN engine (:app:`engine/engine.py`):
+从这个 :code:`add_spec` BPMN引擎的方法 (:app:`engine/engine.py`):
 
 .. code-block:: python
 
@@ -78,19 +72,16 @@ From the :code:`add_spec` method of our BPMN engine (:app:`engine/engine.py`):
         if dmn_files is not None:
             self.parser.add_dmn_files(dmn_files)
 
-The first step is adding BPMN and DMN files to the parser using the :code:`add_bpmn_files` and
-:code:`add_dmn_files` methods.
+第一步是使用 :code:`add_bpmn_files` 和 :code:`add_dmn_files` 方法.
 
-We use the :code:`get_spec` to parse the BPMN process with the provided :code:`process_id` (*not* the process name).
+我们使用 :code:`get_spec` 使用提供的解析BPMN流程 :code:`process_id` (*not* 进程名称).
 
 .. note::
 
-    Ths parser was designed to load one set of files and parse a process and will raise a :code:`ValidationException`
-    if any duplicate iDs are present.  The available processes are immediately added to :code:`process_parsers`, so
-    re-adding a file will generate an exception.  Therefore, if we run into a problem (the specific case here) or wish
-    to reuse the same parser, we need to clear this attribute.
+    该解析器被设计为加载一组文件并解析一个进程，并将引发一个 :code:`ValidationException`
+   如果存在任何重复的ID。可用的进程会立即添加到 :code:`process_parsers`, 因此，重新添加文件将生成一个异常。因此，如果我们遇到问题（这里的具体情况）或希望重用同一个解析器，我们需要清除此属性。
 
-Other Methods for Adding Files
+添加文件的其他方法
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - :code:`add_bpmn_files_by_glob`: Loads files from a glob instead of a list.
@@ -101,28 +92,24 @@ Other Methods for Adding Files
 
 .. _parsing_subprocesses:
 
-Handling Subprocesses and Call Activities
+处理子流程和调用活动
 -----------------------------------------
 
-Internally, Call Activities and Subprocesses (as well as Transactional Subprocesses) are all treated as separate
-specifications.  This is to prevent a single specification from becoming too large, especially in the case where the
-same process spec will be called more than once.
+在内部，调用活动和子流程（以及事务子流程）都被视为单独的规范。这是为了防止单个规范变得太大，尤其是在同一个过程规范将被多次调用的情况下。
 
-The :code:`get_subprocess_specs` method takes a process ID and recursively searches for Call Activities, Subprocesses,
-etc used by or defined in the provided BPMN files.  It returns a mapping of process ID to parsed specification.
+这个 :code:`get_subprocess_specs` 方法获取进程ID，并递归地搜索由所提供的BPMN文件使用或定义的调用活动、子进程等。它返回进程ID到已解析规范的映射。
 
-Other Methods for Finding Dependencies
+查找依赖项的其他方法
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- :code:`find_all_specs`: Returns a mapping of name -> :code:`BpmnWorkflowSpec` for all processes in all files that have been
-  provided to the parser at that point.
-- :code:`get_process_dependencies`: Returns a list of process IDs referenced by the provided process ID
-- :code:`get_dmn_dependencies`: Returns a list of DMN IDs referenced by the provided process ID
+- :code:`find_all_specs`: 返回名称的映射 -> :code:`BpmnWorkflowSpec` 用于所有文件中的所有进程，这些文件当时已提供给解析器。
+- :code:`get_process_dependencies`: 返回提供的进程ID所引用的进程ID的列表
+- :code:`get_dmn_dependencies`: 返回提供的进程ID引用的DMN ID的列表
 
-Creating a BpmnProcessSpec from a BPMN Collaboration
+从BPMN协作创建BpmnProcessSpec
 ----------------------------------------------------
 
-The parser can also generate a workflow spec based on a collaboration:
+解析器还可以基于协作生成工作流规范：
 
 .. code-block:: python
 
@@ -134,8 +121,5 @@ The parser can also generate a workflow spec based on a collaboration:
             self.parser.process_parsers = {}
             raise exc
 
-A spec is created for each of the processes in the collaboration, and each of these processes is wrapped inside a
-subworkflow.  This means that a spec created this way will *always* require subprocess specs, and this method
-returns the generated spec (which doesn't directly correspond to anything in the BPMN file) as well as the processes
-present in the file, and theit dependencies.
+为协作中的每个流程创建一个规范，并且这些流程中的每个都封装在一个子工作流中。这意味着以这种方式创建的规范将始终需要子流程规范，并且此方法返回生成的规范（与BPMN文件中的任何内容都不直接对应）以及文件中存在的流程和利润依赖关系。
 
