@@ -49,9 +49,7 @@ SpiffWorkflow 由两类不同的对象组成：
 
 * **PREDICTED** 任务
 
-  A predicted task is one that will possibly, but not necessarily run at a future time.  For example, if a task follows a
-  conditional gateway, which path is taken won't be known until the gateway is reached and the conditions evaluated.  There
-  are two types of predicted tasks:
+ 预测任务是指可能但不一定在未来某个时间运行的任务。例如，如果任务遵循条件网关，那么在到达网关并评估条件之前，将不知道采用哪条路径。有两种类型的预测任务:
 
   - **MAYBE**: The task is part of a conditional path
   - **LIKELY** : The task is the default output on a conditional path
