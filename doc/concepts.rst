@@ -1,22 +1,20 @@
-Fundamental SpiffWorkflow Concepts
+SpiffWorkflow的基本概念
 ==================================
 
-Overview
+概述
 --------
 
-The purpose of this library is to provide a general workflow execution enviroment with a wide variety of built-in task
-types that support many different workflow patterns.
+这个库的目的是提供一个通用的工作流执行环境，其中包含各种各样的内置任务，支持许多不同工作流模式的类型。
 
-SpiffWorkflow keeps track of task dependencies and states and provides the ability to serialize or deserialize a
-workflow that has not been completed. Developers using this library can focus on displaying a workflow’s state and
-presenting its tasks to users of their application.
+SpiffWorkflow 跟踪任务依赖关系和状态，并提供序列化或反序列化尚未完成的工作流。使用此库的开发人员可以专注于显示工作流的状态和
+向其应用程序的用户呈现其任务。
 
 .. _specs_vs_instances:
 
-Specifications vs. Instances
+规范与实例
 ----------------------------
 
-SpiffWorkflow consists of two different categories of objects:
+SpiffWorkflow由两类不同的对象组成：
 
 - **Specification objects**, which represent definitions of structure and behavior and derive from :code:`WorkflowSpec` and :code:`TaskSpec`
 - **Instance objects**, which represent the state of a running workflow (:code:`Workflow`/:code:`BpmnWorkflow` and :code:`Task`)
