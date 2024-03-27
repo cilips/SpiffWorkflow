@@ -1,15 +1,13 @@
 SpiffWorkflow and BPMN
 ======================
 
-All the Python code and BPMN models used here are available in an example
-project `spiff-example-cli <https://github.com/sartography/spiff-example-cli>`_
+这里使用的所有Python代码和BPMN模型都可以在一个示例项目中获得 `spiff-example-cli <https://github.com/sartography/spiff-example-cli>`_
 
-This example application serves two purposes:
+此示例应用程序有两个用途：
+-说明开发人员需要做些什么才能使用这个库
+-让图书馆用户在不完全构建自己的系统的情况下进行实验
 
-- to illustate what a developer will need to do to use this library
-- to let library users experiment without fully building out their own system
-
-The Example Application
+示例应用程序
 -----------------------
 
 .. toctree::
@@ -25,7 +23,7 @@ Parsing
 
    parsing
 
-Workflows and Tasks
+工作流和任务
 -------------------
 
 .. toctree::
@@ -41,7 +39,7 @@ Scripting Environment
 
    script_engine
 
-Data
+数据
 ----
 
 .. toctree::
@@ -49,7 +47,7 @@ Data
 
    data
 
-Serialization
+序列化
 -------------
 
 .. toctree::
@@ -57,7 +55,7 @@ Serialization
 
    serialization
 
-Custom Tasks
+自定义任务
 ------------
 
 .. toctree::
@@ -65,7 +63,7 @@ Custom Tasks
 
    custom_task_spec
 
-Logging
+日志记录
 -------
 
 .. toctree::
@@ -74,7 +72,7 @@ Logging
    logging
 
 
-Exceptions
+例外情况
 ----------
 
 .. toctree::
@@ -82,7 +80,7 @@ Exceptions
 
    errors
 
-What's in the Module and Where to Find It
+模块中的内容和查找位置
 -----------------------------------------
 
 .. toctree::
@@ -90,7 +88,7 @@ What's in the Module and Where to Find It
 
    imports
 
-Supported BPMN Elements
+支持的BPMN元素
 -----------------------
 
 .. toctree::
@@ -98,7 +96,7 @@ Supported BPMN Elements
 
    supported
 
-Camunda Editor Support
+Camunda编辑器支持
 ----------------------
 
 .. toctree::
