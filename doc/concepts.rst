@@ -71,8 +71,7 @@ SpiffWorkflow 由两类不同的对象组成：
   - **ERROR**: 任务未成功完成。
   - **CANCELLED**: 任务在运行前或运行中被取消。
 
-Tasks start in either a **PREDICTED** or **FUTURE** state, move through one or more **DEFINITE** states, and end in a
-**FINISHED** state.  State changes are determined by task spec methods.
+任务以“预测”或“未来”状态开始，经过一个或多个“确定”状态，并以“完成”状态结束。状态更改由任务规范方法确定。
 
 钩子
 -----
