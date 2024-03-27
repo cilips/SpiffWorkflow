@@ -76,8 +76,7 @@ SpiffWorkflow 由两类不同的对象组成：
 钩子
 -----
 
-SpiffWorkflow executes a Task by calling a series of hooks that are tightly coupled
-to Task State. These hooks are:
+SpiffWorkflow通过调用一系列与Task State紧密耦合的钩子来执行Task。这些挂钩是：
 
 * `_update_hook`: This method will be run by a task's predecessor when the predecessor completes.  The method checks the
   preconditions for running the task and returns a boolean indicating whether a task should become **READY**.  Otherwise,
