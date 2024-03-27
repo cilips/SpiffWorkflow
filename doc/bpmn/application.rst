@@ -105,7 +105,7 @@ JSON规范和工作流将存储在 :code:`wfdata`.  这个 :code:`registry` 是�
     script_env = TaskDataEnvironment({'datetime': datetime })
     >script_engine = PythonScriptEngine(script_env)
 
-这个 :code:`PythonScriptEngine`处理脚本任务的执行以及网关和DMN条件的评估。
+这个:code:`PythonScriptEngine` 处理脚本任务的执行以及网关和DMN条件的评估。
 我们将在此基础上创建脚本引擎；执行和评估将在这种环境的背景下进行。
 
 SpiffWorkflow提供了一个默认的脚本环境，适用于简单的应用程序，但应用程序可能需要以某种方式扩展（或限制）它。 看 :doc:`script_engine` 示例。因此，我们有能力选择性地传入一个。
