@@ -94,25 +94,20 @@ SpiffWorkflow通过调用一系列与Task State紧密耦合的钩子来执行Tas
 
 * `_on_trigger`: This method executes the task's behavior when it is triggered (`Trigger` tasks only).
 
-Task Prediction
+任务预测
 ---------------
 
-Each TaskSpec also has a `_predict_hook` method, which is used to set the state of not-yet-executed children.  The behavior
-of `_predict_hook` varies by TaskSpec.  This is the mechanism that determines whether Tasks are **FUTURE**, **LIKELY**, or
-**MAYBE**.  When a workflow is created, a task tree is generated that contains all definite paths, and branches of
-**PREDICTED** tasks with a maximum length of two.  If a **PREDICTED** task becomes **DEFINITE**, the Task's descendants
-are re-predicted.  If it's determined that a **PREDICTED** will not run, the task and all its descendants will be dropped
-from the tree.  By default `_on_predict_hook` will ignore **DEFINITE** tasks, but this can be overridden by providing a
-mask of `TaskState` values that specifies states other than **PREDICTED**.
+每个TaskSpec也有一个 `_predict_hook` 方法, 其用于设置尚未执行的孩子的状态。  行为 `_predict_hook` 因TaskSpec而异。这是决定Task是否 **FUTURE**, **LIKELY**, or
+**MAYBE**.  创建工作流时，将生成包含所有确定路径的任务树, 和的分支**PREDICTED** 最大长度为两个的任务。  如果一个 **PREDICTED** 任务变成 **DEFINITE**, 任务的后代被重新预测。如果确定**PREDICTED** 将不会运行，该任务及其所有子任务将从树中删除。默认情况下`_on_predict_hook` 将忽略 **DEFINITE** 任务，但这可以通过提供的掩码来覆盖 `TaskState` 指定状态以外的值 **PREDICTED**.
 
-Where Data is Stored
+数据存储位置
 --------------------
 
-Data can ba associated with worklows in the following ways:
+数据可以通过以下方式与工作流相关联：
 
-- **Workflow data** is stored on the Workflow, with changes affecting all Tasks.
-- **Task data** is local to the Task, initialized from the data of the Task's parent.
-- **Task internal data** is local to the Task and not passed to the Task's children
-- **Task spec data** is stored in the TaskSpec object, and if updated, the updates will apply to any Task that references the spec
-  (unused by the :code:`bpmn` package and derivatives).
+- **Workflow data** 存储在工作流中，更改会影响所有任务。
+- **Task data** 是Task的本地，从Task的父级数据初始化。
+- **Task internal data** 是任务的本地，未传递给任务的子级
+- **Task spec data** 存储在TaskSpec对象中，如果更新，则更新将应用于引用该规范的任何Task
+  (未被使用 :code:`bpmn` 一揽子计划和衍生品).
 
