@@ -18,15 +18,14 @@ SpiffWorkflow 是什么?
     :align: center
     :target: https://www.spiffworkflow.org
 
-**SpiffWorkflow is a library that provides a flexible workflow execution environment.**
+**SpiffWorkflow 是一个库，提供了一个灵活的工作流执行环境。**
 
-SpiffWorkflow is the workflow library underlying `Spiff Arena <https://github.com/sartography/spiff-arena>`_.
+SpiffWorkflow 是工作流库的基础 `Spiff Arena <https://github.com/sartography/spiff-arena>`_.
 
-It consists of a generic core library, with packages supporting parsing and execution of BPMN diagrams that extend
-this core.
+它由一个通用核心库组成，其中包含支持BPMN图解析和执行的包，这些包扩展了这个核心。
 
-Extensive documentation about BPMN and how SpiffWorkflow interprets it, as well as information about custom extensions
-implemented in the :code:`spiff` package can be found in the
+有关BPMN以及SpiffWorkflow如何解释它的大量文档，以及有关自定义扩展的信息
+在 :code:`spiff` 能找到
 `Spiff Arena documentation <https://spiff-arena.readthedocs.io/en/latest/>`_. If you are not familiar with BPMN, you
 should start there. If you are looking for a full-fledged BPMN application, you can start and end there. This
 documentation will focus on the library itself and is geared towards developers who are building their own
