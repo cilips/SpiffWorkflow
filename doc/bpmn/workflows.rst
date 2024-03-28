@@ -24,9 +24,9 @@
 * 运行人工任务
 * 刷新任何 `WAITING`任务
 
-until there are no tasks left to complete.
+直到没有任务要完成为止。
 
-Here are our engine methods:
+以下是我们的引擎方法：
 
 .. code-block:: python
 
@@ -44,33 +44,28 @@ Here are our engine methods:
             task.run()
             task = workflow.get_next_task(state=TaskState.READY, spec_class=CatchingEvent)
 
-In the first, we retrieve and run any tasks that can be executed automatically, including processing any events that
-might have occurred.
+在第一个步骤中，我们检索并运行任何可以自动执行的任务，包括处理可能发生的任何事件。
 
-The second method handles processing events.  A task that corresponds to an event remains in state :code:`WAITING` until
-it catches whatever event it is waiting on, at which point it becomes :code:`READY` and can be run.  The
-:code:`workflow.refresh_waiting_tasks` method iterates over all the waiting tasks and changes the state to :code:`READY`
-if the conditions for doing so have been met.
+第二种方法处理事件。与事件相对应的任务仍处于状态 :code:`WAITING` 直到它捕捉到它正在等待的任何事件，这时它就变成了 :code:`READY` 并且可以运行。
+这个:code:`workflow.refresh_waiting_tasks` 方法迭代所有等待的任务，如果已经满足这样做的条件, 并将状态更改为 :code:`READY`。
 
-We'll cover using the `workflow.get_next_task` method and handling Human tasks later in this document.
+我们将使用 `workflow.get_next_task` 方法和处理本文档后面的人工任务。
 
-Tasks
+任务
 =====
 
-In this section, we'll give an overview of some of the general attributes of Task Specs and then delve into a few
-specific types.  See :ref:`specs_vs_instances` to read about Tasks vs Task Specs.
+在本节中，我们将概述任务规范的一些常规属性，然后深入研究一些特定类型。请参阅 :ref:`specs_vs_instances` 以阅读有关任务与任务规范的信息。
 
-BPMN Task Specs
+BPMN任务规范
 ---------------
 
-BPMN Task Specs inherit quite a few attributes from :code:`SpiffWorkflow.specs.base.TaskSpec`, but you probably
-don't have to pay much attention to most of them.  A few of the important ones are:
+BPMN任务规范继承了相当多的属性 :code:`SpiffWorkflow.specs.base.TaskSpec`, 但你可能不必太关注其中的大部分。其中一些重要的是：
 
-* `name`: the unique id of the TaskSpec, and it will correspond to the BPMN ID if that is present
-* `description`: we use this attribute to provide a description of the BPMN task type
-* `manual`: :code:`True` if human input is required to complete tasks associated with this Task Spec
+* `name`:TaskSpec的唯一id，并且它将对应于BPMN id（如果存在）
+* `description`: 我们使用该属性来提供BPMN任务类型的描述
+* `manual`: :code:`True` 如果需要人工输入来完成与此任务规范关联的任务
 
-BPMN Task Specs have the following additional attributes.
+BPMN任务规范具有以下附加属性。
 
 * `bpmn_id`: the ID of the BPMN Task (this will be :code:`None` if the task is not visible on the diagram)
 * `bpmn_name`: the BPMN name of the Task
