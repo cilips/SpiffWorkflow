@@ -1,7 +1,7 @@
-Instantiating a Workflow
+实例化工作流
 ========================
 
-From the :code:`start_workflow` method of our BPMN engine (:app:`engine/engine.py`):
+来自我们的 BPMN 引擎 (:app:`engine/engine.py`)的 :code:`start_workflow` 方法:
 
 .. code-block:: python
 
