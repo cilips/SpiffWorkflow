@@ -11,20 +11,18 @@
         wf_id = self.serializer.create_workflow(wf, spec_id)
         return wf_id
 
-We'll use our serializer to recreate the workflow spec based on the id.  As discussed in :ref:`parsing_subprocesses`,
-a process has a top level specification and dictionary of process id -> spec containing any other processes referenced
-by the top level process (Call Actitivies and Subprocesses).
+我们将使用序列化程序根据id重新创建工作流规范。如parsing_subprocesses中所述，流程有一个顶级规范和流程id->spec字典，其中包含顶级流程引用的任何其他流程（调用Actitivies和subprocesses）。
 
-Running a Workflow
+运行工作流
 ==================
 
-In the simplest case, running a workflow involves implementing the following loop:
+在最简单的情况下，运行工作流需要实现以下循环：
 
-* runs any `READY` engine tasks (where :code:`task_spec.manual == False`)
-* presents `READY` human tasks to users (if any)
-* updates the human task data if necessary
-* runs the human tasks
-* refreshes any `WAITING` tasks
+* 运行任何 `READY`引擎任务 (where :code:`task_spec.manual == False`)
+* 向用户显示`READY`人工任务（如果有）
+* 如有必要，更新人工任务数据
+* 运行人工任务
+* 刷新任何 `WAITING`任务
 
 until there are no tasks left to complete.
 
