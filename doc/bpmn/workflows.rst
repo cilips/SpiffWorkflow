@@ -72,25 +72,24 @@ BPMN任务规范具有以下附加属性。
 * `lane`: the lane of the BPMN Task
 * `documentation`: the contents of the BPMN `documentation` element for the Task
 
-In the example application, we use these :code:`bpmn_name` (or :code:`name` when a :code:`bpmn_name` isn't specified),
-and :code:`lane` to display information about the tasks in a workflow (see the :code:`update_task_tree` method of
+
+在示例应用程序中，我们使用以下 :code:`bpmn_name` (或 :code:`name` 当 a :code:`bpmn_name` 未指定),
+及 :code:`lane` 显示有关工作流中任务的信息 (查看 :code:`update_task_tree` 方法在
 :app:`curses_ui/workflow_view.py`).
 
-The :code:`manual` attribute is particularly important, because SpiffWorkflow does not include built-in
-handling of these tasks so you'll need to implement this as part of your application.  We'll go over how this is
-handled in this application in the next section.
+这个 :code:`manual` 属性特别重要，因为SpiffWorkflow不包括内置这些任务的处理，因此您需要将其作为应用程序的一部分来实现。我们将在下一节中介绍如何在此应用程序中处理此问题。
+
 
 .. note::
 
-    NoneTasks (BPMN tasks with no more specific type assigned) are treated as Manual Tasks by SpiffWorkflow.
+    SpiffWorkflow将非任务（没有分配更具体类型的BPMN任务）视为手动任务。
 
 实例化的任务
 ------------------
 
-Actually all Tasks are instantiated -- that is what distinguishes a Task from a Task Spec; however, it is impossible to
-belabor this point too much.
+实际上，所有的任务都是实例化的——这就是任务与任务规范的区别；然而，我们不可能过多地重复这一点。
 
-Tasks have a few additional attributes that contain important details about particular instances:
+任务具有一些附加属性，其中包含有关特定实例的重要详细信息：
 
 * :code:`id`: a UUID that uniquely identifies the Task (remember that a Task Spec may be reached more than once, but a new
   Task is created each time)
@@ -206,7 +205,7 @@ You will not need special code to handle gateways (this is one of the things thi
 worth emphasizing that gateway conditions are treated as Python expressions which are evaluated against the context of
 the task data.  See :doc:`script_engine` for more details.
 
-Script and Service Tasks
+脚本和服务任务
 ------------------------
 
 See :doc:`script_engine` for more information about how Spiff handles these tasks.  There is no default Service Task
