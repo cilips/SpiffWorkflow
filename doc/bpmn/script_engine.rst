@@ -1,4 +1,4 @@
-Script Engine Overview
+脚本引擎概述
 ======================
 
 You may need to modify the default script engine, whether because you need to make additional
@@ -10,7 +10,7 @@ security reasons.
    By default, the scripting environment passes input directly to :code:`eval` and :code:`exec`!  In most
    cases, you'll want to replace the default scripting environment with one of your own.
 
-Restricting the Script Environment
+限制脚本环境
 ==================================
 
 The following example replaces the default global enviroment with the one provided by
@@ -50,7 +50,7 @@ You'll get an error, because imports have been restricted.
     Since we used exactly the same parser and serializer, we can simply switch back and forth between these
     two script engines (that is the only difference between the two configurations).
 
-Making Custom Classes and Functions Available
+使自定义类和函数可用
 =============================================
 
 Another reason you might want to customize the scripting environment is to provide access to custom
@@ -119,7 +119,7 @@ custom script engine:
 If you start the application in interactive mode and choose a product, you'll see tuple info reflected in the task data
 after selecting a product.
 
-Service Tasks
+服务任务
 =============
 
 We can also use Service Tasks to accomplish the same goal. Service Tasks are also executed by the workflow's script
