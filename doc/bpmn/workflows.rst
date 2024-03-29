@@ -84,7 +84,7 @@ handled in this application in the next section.
 
     NoneTasks (BPMN tasks with no more specific type assigned) are treated as Manual Tasks by SpiffWorkflow.
 
-Instantiated Tasks
+实例化的任务
 ------------------
 
 Actually all Tasks are instantiated -- that is what distinguishes a Task from a Task Spec; however, it is impossible to
@@ -99,7 +99,7 @@ Tasks have a few additional attributes that contain important details about part
 * :code:`last_state_change`: the timestamp of the last time this Task changed state
 * :code:`data`: a dictionary that holds task/workflow data
 
-Human (User and Manual) Tasks
+人工（用户和手动）任务
 -----------------------------
 
 Remember that the :code:`bpmn` module does not provide any default capability for gathering information from a user,
@@ -192,14 +192,14 @@ Our Manual Task's instructions look like this:
 
 and when rendered against the instance data, reflects the details of this particular order.
 
-Business Rule Tasks
+业务规则任务
 -------------------
 
 Business Rule Tasks are not implemented in the :code:`SpiffWorkflow.bpmn` module; however, the library does contain
 a DMN implementation of a Business Rule Task in the :code:`SpiffWorkflow.dmn` module.  Both the :code:`spiff` and
 :code:`camunda` modules include DMN support.
 
-Gateways
+网关
 --------
 
 You will not need special code to handle gateways (this is one of the things this library does for you), but it is
@@ -215,7 +215,7 @@ implementation, but we'll go over an example of one way this might be implemente
 
 .. _task_filters:
 
-Filtering Tasks
+筛选任务
 ===============
 
 SpiffWorkflow has two methods for retrieving tasks:
@@ -238,7 +238,7 @@ Tasks can be filtered by:
 - :code:`lane`: the lane of the Task Spec
 - :code:`catches_event`: Task Specs that catch a particular :code:`BpmnEvent`
 
-Examples
+示例
 --------
 
 We reference the following processes here:
