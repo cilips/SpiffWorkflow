@@ -16,8 +16,8 @@ SpiffWorkflow 跟踪任务依赖关系和状态，并提供序列化或反序列
 
 SpiffWorkflow 由两类不同的对象组成：
 
-- **Specification 对象**, 其表示结构和行为的定义，并源自 :code:`WorkflowSpec` and :code:`TaskSpec`
-- **Instance 对象**, 表示正在运行的工作流的状态 (:code:`Workflow`/:code:`BpmnWorkflow` and :code:`Task`)
+- **Specification 对象**, 其表示结构和行为的定义，并源自 :code:`WorkflowSpec` 及 :code:`TaskSpec`
+- **Instance 对象**, 表示正在运行的工作流的状态 :code:`Workflow`/:code:`BpmnWorkflow` 及 :code:`Task`
 
 在工作流上下文中，规范是工作流的模型，它描述了每当执行工作流时可以采用的每一条路径。实例是规范的特定实例化。它描述了当前状态或工作流运行时实际采用的路径
 
