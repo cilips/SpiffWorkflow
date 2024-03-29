@@ -92,7 +92,7 @@ SpiffWorkflow通过调用一系列与Task State紧密耦合的钩子来执行Tas
 
 * `_on_error_hook`: 当任务的状态更改为ERROR时，将运行此方法。
 
-* `_on_trigger`: This method executes the task's behavior when it is triggered (`Trigger` tasks only).
+* `_on_trigger`: 此方法在任务被触发时执行任务的行为(仅限 `Trigger` 触发器任务)。
 
 任务预测
 ---------------
