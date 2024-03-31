@@ -20,30 +20,30 @@ SpiffWorkflow 是什么?
 
 **SpiffWorkflow 是一个库，提供了一个灵活的工作流执行环境。**
 
-SpiffWorkflow 是工作流库的基础 `Spiff Arena <https://github.com/sartography/spiff-arena>`_.
+SpiffWorkflow 是工作流库 `Spiff Arena <https://github.com/sartography/spiff-arena>`_ 的基础。
 
 它由一个通用核心库组成，其中包含支持BPMN图解析和执行的包，这些包扩展了这个核心。
 
-有关BPMN以及SpiffWorkflow如何解释它的大量文档，以及有关自定义扩展的信息
-在 :code:`spiff` 
-`Spiff Arena documentation <https://spiff-arena.readthedocs.io/en/latest/>`_. 能找到。如果您不熟悉BPMN，您
-应该从那里开始。如果您正在寻找一个完整的BPMN应用程序，您可以从那里开始并结束。这文档将侧重于库本身，并面向正在构建自己的库的开发人员使用。
+有关 BPMN 以及 SpiffWorkflow 如何解释它的大量文档，以及有关自定义扩展的信息
+在 :code:`spiff`
+`Spiff Arena documentation <https://spiff-arena.readthedocs.io/en/latest/>`_. 能找到。
+如果您不熟悉BPMN，您应该从那里开始。如果您正在寻找一个完整的BPMN应用程序，您可以从那里开始并结束。
+这文档将侧重于库本身，并面向正在构建自己的库的开发人员使用。
 
-请访问 `SpiffWorkflow.org <https://www.spiffworkflow.org>`_ 查找有关SpiffWorkflow及其的其他文章、视频和教程
+请访问 `SpiffWorkflow.org <https://www.spiffworkflow.org>`_ 查找有关 SpiffWorkflow 及其他文章、视频和教程
 相关项目，包括SpiffArena、Service Connectors和BPMN.js 扩展。
 
 许可
 -------
 Spiff Workflow 基于
-`GNU Lesser General Public License (LGPL) Version 3 <https://www.gnu.org/licenses/lgpl-3.0.txt>`_ 发布.
+`GNU Lesser General Public License (LGPL) Version 3 <https://www.gnu.org/licenses/lgpl-3.0.txt>`_ 发布。
 
 
 支持
 -------
-你能在 `our Discord Channel <https://discord.gg/BYHcc7PpUC>`_ 找到我们
+你能在 `our Discord Channel <https://discord.gg/BYHcc7PpUC>`_ 找到支持
 
-商业支持 SpiffWorkflow 
-`Sartography <https://sartography.com>`_
+SpiffWorkflow 商业支持在 `Sartography <https://sartography.com>`_
 
 
 内容

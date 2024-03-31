@@ -1,30 +1,30 @@
-Logging
+日志
 =======
 
-Spiff provides several loggers:
- - the :code:`spiff` logger, which emits messages when a workflow is initialized and when tasks change state
- - the :code:`spiff.metrics` logger, which emits messages containing the elapsed duration of tasks
+Spiff提供了几个记录器：
+ -  :code:`spiff` 记录器, 它在初始化工作流和任务更改状态时发出消息
+ -  :code:`spiff.metrics` 记录器, 它发出包含任务经过的持续时间的消息
 
-All log entries created during the course of running a workflow contain the following extra attributes:
+在运行工作流过程中创建的所有日志条目都包含以下额外属性：
 
-- :code:`workflow_spec`: the name of the current workflow spec
-- :code:`task_spec`: the name of the task spec
-- :code:`task_id`: the ID of the task)
-- :code:`task_type`: the name of the task's spec's class
+- :code:`workflow_spec`: 当前工作流规范的名称
+- :code:`task_spec`: 任务规范的名称
+- :code:`task_id`: 任务的ID
+- :code:`task_type`: 任务的规范类的名称
 
-If the log level is less than 20:
+如果日志级别小于20:
 
-- :code:`data` the task data (this can be quite large and is only made available for debugging purposes)
+- :code:`data` 任务数据（可能很大，仅用于调试目的）
 
-If the log level is less than or equal to 10:
+如果日志级别小于或等于10：
 
-- :code:`internal_data`: the task internal data (only available at DEBUG or below because it is not typically useful)
+- :code:`internal_data`: 任务内部数据（仅在DEBUG或更低版本中可用，因为它通常不有用）
 
-The metrics logger additionally provides and only emits messages at the DEBUG level:
+metrics logger 还提供并仅在DEBUG级别发出消息：
 
-- :code:`elapsed`: the time it took the task to run after (ie, the duration of the :code:`task.run` method)
+- :code:`elapsed`: 任务运行所花费的时间（例如, :code:`task.run` 方法的持续时间)
 
-In our command line UI (:app:`cli/subcommands.py`), we've added a few of these extra attributes to the log records:
+在我们的命令行UI中 (:app:`cli/subcommands.py`), 我们在日志记录中添加了一些额外的属性：
 
 .. code-block:: python
 
@@ -38,8 +38,7 @@ In our command line UI (:app:`cli/subcommands.py`), we've added a few of these e
     metrics_handler.setFormatter('%(asctime)s [%(name)s:%(levelname)s] (%(workflow_spec)s:%(task_spec)s) %(elasped)s')
     metrics_logger.addHandler(metrics_handler)
 
-In the configuration module :app:`spiff/file.py` that appears in many examples, we set the level of the :code:`spiff`
-logger to :code:`INFO`, so that we'll see messages about task state changes, but we ignore the metrics log; however,
-the configuration could easily be changed to include it (it can, however generate a high volume of very large records,
-so consider yourself warned!).
+在配置模块中 :app:`spiff/file.py` 出现在许多示例中，我们设置 :code:`spiff`
+logger 到 :code:`INFO`, 因此，我们将看到有关任务状态更改的消息，但忽略度量日志；
+然而，配置可以很容易地更改为包含它（但是，它可能会生成大量非常大的记录，所以请注意警告！）。
 

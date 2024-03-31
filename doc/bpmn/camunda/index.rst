@@ -1,38 +1,37 @@
-Using the Camunda Configuration Module
+使用Camunda配置模块
 ======================================
 
-.. warning:: There is a better way ...
-  SpiffWorkflow does not aim to support all of Camunda's proprietary extensions.
-  Many of of the items in the Camunda Properties Panel do not work.  And
-  major features of SpiffWorkflow (Messages, Data Objects, Service Tasks, Pre-Scripts, etc...)
-  can not be configured in the Camunda editor.  Use `SpiffArena <https://www.spiffworkflow.org/posts/articles/get_started/>`_
-  to build and test your BPMN models instead!
+.. warning:: 有更好的方法 ...
+  SpiffWorkflow并不旨在支持Camunda的所有专有扩展。
+  Camunda Properties Panel中的许多项目都不起作用, SpiffWorkflow的主要功能（消息、数据对象、服务任务、预脚本等）
+  无法在Camunda编辑器中进行配置。
+  使用 `SpiffArena <https://www.spiffworkflow.org/posts/articles/get_started/>`_
+  转而构建和测试BPMN模型！
 
-Earlier users of SpiffWorkflow relied heavily on Camunda's modeler and several of our task spec
-implementations were based on Camunda's extensions.  Support for these extensions has been moved
-to the :code:`camunda` package.  We are not actively maintaining this package (though we will
-accept contributions from Camunda users!).  Please be aware that many of the Camunda extensions
-that will appear in the Camunda editor do not work with SpiffWorkflow.
+SpiffWorkflow的早期用户严重依赖Camunda的建模器，我们的几个任务规范实现都是基于Camunda扩展的。
+对这些扩展的支持已转移到:code:`camunda`包中。
+我们不会积极维护此软件包（尽管我们将接受Camunda用户的贡献！）。
+请注意，将出现在Camunda编辑器中的许多Camunda扩展不适用于SpiffWorkflow。
 
-In this repo, we provide the following configuration:
+
+在本回购中，我们提供以下配置：
 
 .. code-block:: console
 
    ./runner.py -e spiff_example.camunda.sqlite
 
-Tasks
+任务
 =====
 
-User Tasks
+用户任务
 ----------
 
-Creating a User Task
+创建用户任务
 ^^^^^^^^^^^^^^^^^^^^
 
-When you click on a user task in the BPMN modeler, the Properties Panel includes a form tab. Use this
-tab to build your questions.
+当您在BPMN建模器中单击用户任务时，属性面板会包含一个表单选项卡。使用此选项卡可以构建问题。
 
-The following example shows how a form might be set up in Camumda.
+以下示例显示如何在Camumda中设置表单。
 
 .. figure:: figures/user_task.png
    :scale: 30%
@@ -41,91 +40,84 @@ The following example shows how a form might be set up in Camumda.
    User Task configuration
 
 
-Manual Tasks
+手动任务
 ------------
 
-Creating a Manual Task
+创建手动任务
 ^^^^^^^^^^^^^^^^^^^^^^
 
-We can use the BPMN element Documentation field to display more information about the context of the item.
+我们可以使用BPMN元素Documentation字段来显示有关项目上下文的更多信息。
 
-Spiff is set up in a way that you could use any templating library you want, but we have used 
+Spiff的设置方式可以使用任何您想要的模板库，但我们使用了
 `Jinja <https://jinja.palletsprojects.com/en/3.0.x/>`_.
 
-In this example, we'll present an order summary to our customer.
+在本例中，我们将向客户提供订单摘要。
 
 .. figure:: figures/documentation.png
    :scale: 30%
    :align: center
 
-   Element Documentation
+   元素文档
 
-Example Code
+示例代码
 ------------
 
-Example Human task handlers can be found in :app:`camunda/curses_handlers.py`.
+示例人工任务处理程序可以在:app:`camunda/curses_handlers.py`中找到。
 
-Events
+事件
 ======
 
-Message Events
+消息事件
 --------------
 
-Configuring Message Events
+配置消息事件
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. figure:: figures/throw_message_event.png
    :scale: 60%
    :align: center
 
-   Throw Message Event configuration
+   抛出消息事件配置
 
 
 .. figure:: figures/message_start_event.png
    :scale: 60%
    :align: center
 
-   Message Catch Event configuration
+   消息捕获事件配置
 
-The Throw Message Event Implementation should be 'Expression' and the Expression should
-be a Python statement that can be evaluated.  In this example, we'll just send the contents
-of the :code:`reason_delayed` variable, which contains the response from the 'Investigate Delay'
-Task.
+Throw Message Event Implementation 应为 'Expression' ，Expression应为可求值的Python语句。
+在本例中，我们只发送 :code:`reason_delayed` 变量的内容，该变量包含“调查延迟”的响应任务
 
-We can provide a name for the result variable, but I have not done that here, as it does not
-make sense to me for the generator of the event to tell the handler what to call the value.
-If you *do* specify a result variable, the message payload (the expression evaluated in the
-context of the Throwing task) will be added to the handling task's data in a variable of that
-name; if you leave it blank, SpiffWorkflow will create a variable of the form <Handling
-Task Name>_Response.
 
-MultiInstance Tasks
+我们可以为结果变量提供一个名称，但我在这里没有这样做，因为事件的生成器告诉处理程序调用什么值对我来说没有意义。
+如果您 *do* 指定了一个结果变量，那么消息负载（在抛出任务的上下文中计算的表达式）将被添加到该名称的变量中的处理任务的数据中；
+如果保留为空，SpiffWorkflow将创建一个形式为<Handling Task Name>_Response的变量。
+
+多实例任务
 ===================
 
-Earlier versions of SpiffWorkflow relied on the properties available in the Camunda MultiInstance Panel.
+早期版本的SpiffWorkflow依赖于Camunda多实例面板中的可用属性。
 
 .. figure:: figures/multiinstance_task_configuration.png
    :scale: 60%
    :align: center
 
-   MultiInstance Task configuration
+   多实例任务配置
 
-SpiffWorkflow has a MultiInstance Task spec in the :code:`camunda` package that interprets these fields
-in the following way:
+SpiffWorkflow在 :code:`camunda` 包中有一个多实例任务规范，该规范以以下方式解释这些字段：
+
 
 * Loop Cardinality:
 
-   - If this is an integer, or a variable that evaluates to an integer, this number would be 
-     used to determine the number of instances
-   - If this is a collection, the size of the collection would be used to determine the number of
-     instances
+   - 如果这是一个整数，或者是一个计算结果为整数的变量，则该数字将用于确定实例的数量
+   - 如果这是一个集合，则集合的大小将用于确定实例的数量
 
-* Collection: the output collection (input collections have to be specified in the "Cardinality" field).
+* Collection: 输出集合（输入集合必须在 "Cardinality" 字段中指定）。
 
-* Element variable: the name of the varible to copy the item into for each instance.
+* Element variable: 要为每个实例将项复制到的变量的名称。
 
 .. warning::
 
-   The spec in this package is based on an old version of Camunda, so the panel may have changed.  The
-   properties might or might not have been the way Camunda used these fields, and may or may not be similar
-   to newer or current versions.  *Use at your own risk!*
+   此包中的规格基于旧版本的Camunda，因此面板可能已更改。
+   这些属性可能是Camunda使用这些字段的方式，也可能不是，也可能与更新或当前版本相似*使用风险自负*

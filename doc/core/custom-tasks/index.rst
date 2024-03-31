@@ -1,19 +1,18 @@
-Implementing Custom Tasks
+实施自定义任务
 =========================
 
-Introduction
+介绍
 ------------
 
-In this second tutorial, we are going to implement our own task, and
-use serialization and deserialization to store and restore it.
+在第二个教程中，我们将实现我们自己的任务，以及使用序列化和反序列化来存储和还原它。
 
-If you haven't already, you should complete the first :doc:`../tutorial/index`.
-We are also assuming that you are familiar with the :doc:`../../concepts`.
+如果你还没有，你应该完成第一个 :doc:`../tutorial/index`。
+我们还假设您熟悉：:doc:`../../concepts`。
 
-Implementing the custom task
+实施自定义任务
 ----------------------------
 
-The first step is to create a :class:`SpiffWorkflow.specs.TaskSpec` that
+第一步是创建一个 :class:`SpiffWorkflow.specs.TaskSpec` that
 fires the rocket::
 
     from SpiffWorkflow.specs import Simple
@@ -22,43 +21,41 @@ fires the rocket::
         def _on_complete_hook(self, my_task):
             print("Rocket sent!")
 
-Save this file as ``strike.py``.
+将此文件另存为 ``strike.py``.
 
-Now, before we are ready to define the workflow using XML or JSON, we will
-also have extend the serializer to let SpiffWorkflow know how to represent
-your NuclearStrike first.
+现在，在我们准备好使用XML或JSON定义工作流之前，我们还必须扩展序列化程序，让SpiffWorkflow知道如何首先表示NuclearStrike。
 
-Preparing a serializer
+准备序列化程序
 ----------------------
 
-Before we can use JSON to specify a workflow, we first need to teach
-SpiffWorkflow what our custom `NuclearChoice` looks like in JSON.
-We do this by extending the
+在我们可以使用JSON指定工作流之前，我们首先需要教SpiffWorkflow我们的自定义“NuclearChoice”在JSON中是什么样子的。
+我们通过扩展
+
 :mod:`SpiffWorkflow.serializer.json.JSONSerializer`.
 
 .. literalinclude:: serializer.py
 
-We save the serializer as ``serializer.py``.
-We also need to update ``strike.py`` as follows:
+我们将序列化程序保存为 ``serializer.py``.
+我们还需要更新 ``strike.py`` 如下所示：
 
-We also implement the deserializer:
+我们还实现了反序列化程序：
 
 .. literalinclude:: strike.py
 
-That is all! You are now ready to create the specification from JSON.
+仅此而已！现在您已经准备好从JSON创建规范了。
 
-Creating a workflow specification (using JSON)
+创建工作流规范（使用JSON）
 ----------------------------------------------
 
-Now we can use the NuclearStrike in the workflow specification in JSON.
-Note that this specification is the same as in our first tutorial,
-except that it references our class `strike.NuclearStrike`.
+现在我们可以在JSON中的工作流规范中使用NuclearStrike。
+请注意，此规范与我们的第一个教程中的规范相同，
+只是它参考了我的 `strike.NuclearStrike` 类。
 
 .. literalinclude:: nuclear.json
 
-Using the custom serializer and task
+使用自定义序列化程序和任务
 ------------------------------------
 
-Here we use our brand new serializer in practice:
+在这里，我们在实践中使用我们全新的序列化程序：
 
 .. literalinclude:: start.py

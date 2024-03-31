@@ -1,83 +1,77 @@
-SpiffWorkflow Exceptions
+SpiffWorkflow异常
 ========================
 
-Details about the exceptions and exception hierarchy within SpiffWorkflow
+有关SpiffWorkflow中异常和异常层次结构的详细信息
 
 SpiffWorkflowException
 ----------------------
-Base exception for all exceptions raised by SpiffWorkflow
+SpiffWorkflow引发的所有异常的基本异常
 
-ValidationException
+验证异常
 -------------------
 
 **Extends**
 SpiffWorkflowException
 
-Thrown during the parsing of a workflow.
+在分析工作流时抛出。
 
 **Attributes/Methods**
 
-- **tag**:  The type of xml tag being parsed
-- **id**:  the id attribute of the xml tag, if available.
-- **name**:  the name attribute of the xml tag, if available.
-- **line_number**:  the line number where the tag occurs.
-- **file_name**: The name of the file where the error occurred.
-- **message**:  a human readable error message.
+- **tag**:  正在分析的xml标记的类型
+- **id**:  xml标记的id属性（如果可用）。
+- **name**:  xml标记的name属性（如果可用）。
+- **line_number**:  出现标记的行号。
+- **file_name**: 发生错误的文件的名称。
+- **message**:  人类可读的错误消息。
 
 
-WorkflowException
+工作流异常
 -----------------
-When an error occurs with a Task Specification (maybe should have been called
-a SpecException)
+当任务规范发生错误时（可能应该称为SpecException）
 
 **Extends**
 SpiffWorkflowException
 
 **Attributes/Methods**
 
-- **task_spec**:  The TaskSpec - the specific Task, Gateway, etc... that caused the error to happen.
-- **error**:  a human readable error message describing the problem.
+- **task_spec**:  TaskSpec-导致错误发生的特定任务、网关等。
+- **error**:  描述问题的人工可读错误消息。
 
 
-WorkflowDataException
+工作流数据异常
 ---------------------
-When an exception occurs moving data between tasks and Data Objects (including
-data inputs and data outputs.)
+发生异常时，在任务和数据对象之间移动数据（包括数据输入和数据输出）
 
 **Extends**
 WorkflowException
 
 **Attributes/Methods**
 
-(in addition to the values in a WorkflowException)
+（除了WorkflowException中的值之外）
 
- - **task**:  The specific task (not the task spec, but the actual executing task)
- - **data_input**: The spec of the input variable
- - **data_output**: The spec of the output variable
+ - **task**:  具体任务（不是任务规范，而是实际执行的任务）
+ - **data_input**: 输入变量的规范
+ - **data_output**: 输出变量的规格
 
 WorkflowTaskException
 ---------------------
 **Extends**
 WorkflowException
 
-It will accept the line_number and error_line as arguments - if the
-underlying error provided is a SyntaxError it will try to derive this
-information from the error.
-If this is a name error, it will attempt to calculate a did-you-mean
-error_msg.
+它将接受line_number和error_line作为参数-如果提供的基本错误是SyntaxError，它将尝试从错误中派生此信息。
+如果这是一个名称错误，它将尝试计算一个你是说error_msg吗。
 
 **Attributes/Methods**
 
-(in addition to the values in a WorkflowException)
+（除了WorkflowException中的值之外）
 
- - **task**:  The specific task (not the task spec, but the actual executing task)
- - **error_msg**: The detailed human readable message.  (conflicts with error above)
- - **exception**: The original exception this wraps around.
- - **line_number** The line number that contains the error
- - **offset** The point in the line that caused the error
- - **error_line** The content of the line that caused the error.
- - **get_task_trace**:  Provided a specific Task, will work it's way through the workflow/sub-processes and 
-   call activities to show where an error occurred.  Useful if the error happened within a deeply nested 
-   structure (where call activities include call activities ....)
- - **did_you_mean_name_error**: Compares a missing data value with the contents of the data
+ - **task**:  具体任务（不是任务规范，而是实际执行的任务）
+ - **error_msg**: 详细的人类可读信息。（与上述错误冲突）
+ - **exception**: 最初的例外情况到此为止。
+ - **line_number** 包含错误的行号
+ - **offset** 导致错误的线上的点
+ - **error_line** 导致错误的行的内容。
+ - **get_task_trace**:  提供一个特定的任务，将通过工作流/子流程和调用活动来显示错误发生的位置。
+如果错误发生在深度嵌套的结构中（其中调用活动包括调用活动…），则非常有用
+ - **did_you_mean_name_error**: 将丢失的数据值与数据的内容进行比较
 

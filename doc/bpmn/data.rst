@@ -1,43 +1,33 @@
-Data
+数据
 ====
 
-Data Objects
+数据对象
 ------------
 
-Data Objects exist at the process level and are not visible to individual Tasks unless explicitly indicated (ie there
-is a line from the Data Object to or from a Task).
+数据对象存在于流程级别，除非明确指示（即数据对象与任务之间有一行），否则对单个任务不可见。
 
-All Workflows have a :code:`data` attribute; like :code:`Task.data`, it is just a dictionary, and this is where the
-values for Data Objects are stored.
+所有工作流都有 :code:`data` 属性, 例如 :code:`Task.data`, 它只是一个字典，数据对象的值存储在这里。
 
-If a Data Object is to be made available to a Task, the value is copied from the Workflow data into the Task data
-immediately before the Task becomes :code:`READY`; when the Task completes, the Data Object value is removed from the
-Task data.
+如果要使数据对象可用于任务，则会在任务变为之前立即将值从工作流数据复制到任务数据中 :code:`READY`;
+任务完成后，数据对象值将从任务数据中删除。
 
-If value is to be written to a Data Object, it is stored in the Workflow data and removed from the Task data when the
-Task completes.
+如果要将值写入数据对象，则该值将存储在工作流数据中，并在任务完成时从任务数据中删除。
 
-Data Objects are always available to Gateways (even though you cannot draw a line on the diagram).
+数据对象始终可用于网关（即使不能在图上画线）。
 
-Data Inputs and Outputs
+数据输入和输出
 -----------------------
 
-In complex workflows, it is useful to be able to specify required Data Inputs and Outputs, especially for Call Activities
-given that they are external and might be shared across many different processes.
+在复杂的工作流程中，能够指定所需的数据输入和输出是很有用的，特别是对于呼叫活动，因为它们是外部的，并且可能在许多不同的流程中共享。
 
-When you add a Data Input to a Call Activity, SpiffWorkflow will check that a variable with that name is available to
-be copied into the activity and copy *only* the variables you've specified as inputs.  When you add a Data Output,
-SpiffWorkflow will copy *only* the variables you've specified from the Call Activity at the end of the process.  If any
-of the variables are missing, SpiffWorkflow will raise an error.
+当您将数据输入添加到呼叫活动中时，SpiffWorkflow将检查是否可以将具有该名称的变量复制到活动中，并*仅复制*您指定为输入的变量。
+添加数据输出时，SpiffWorkflow将在流程结束时*仅复制*您从呼叫活动中指定的变量。如果缺少任何变量，SpiffWorkflow将引发错误。
 
-Our product customization Call Activity (:bpmn:`call_activity.bpmn`) does not require any input, but the output of the
-process is the product name and quantity.  We can add corresponding Data Outputs for those.
+我们的产品定制呼叫活动 (:bpmn:`call_activity.bpmn`) 不需要任何输入，但过程的输出是产品名称和数量。我们可以为这些添加相应的数据输出。
 
-If you use the alternate version of this Call Activity (:bpmn:`data_output.bpmn`) and choose a product that has
-customizations, when you inspect the data after the Call Activity completes, you'll see that the customizations have been
-removed.
+如果您使用此呼叫活动的备用版本(:bpmn:`data_output.bpmn`) 并选择具有自定义项的产品，当您在“呼叫活动”完成后检查数据时，您会看到自定义项已被删除。
 
-To load this example (product D has two customizations):
+要加载此示例（产品D有两个自定义项）：
 
 .. code-block:: console
 
@@ -47,6 +37,6 @@ To load this example (product D has two customizations):
 
 .. note::
 
-   The BPMN spec allows *any* task to have Data Inputs and Outputs. Our modeler does not provide a way to add them to
-   arbitrary tasks, but SpiffWorkflow will recognize them on any task if they are present in the BPMN XML.
+   BPMN规范允许*any*任务具有数据输入和输出。我们的建模器没有提供将它们添加到任意任务中的方法，
+但如果它们存在于BPMN XML中，SpiffWorkflow将在任何任务中识别它们。
 

@@ -1,7 +1,7 @@
-List of Supported Elements
+支持的元素列表
 ==========================
 
-Tasks
+任务
 -----
 
 * User Task
@@ -12,10 +12,9 @@ Tasks
 
 .. note::
 
-    Spiff's implementation of Service Tasks is abstract, so while they will be parsed, the
-    library provides no built-in mechanism for executing them.
+    Spiff对服务任务的实现是抽象的，因此在解析它们时，库没有提供用于执行它们的内置机制。
 
-Gateways
+网关
 --------
 
 * Parallel Gateway
@@ -23,14 +22,14 @@ Gateways
 * Inclusive Gateway
 * Event-Based Gateway
 
-Subrocesses and Call Activities
+子进程和调用活动
 -------------------------------
 
 * Subprocess
 * Call Activity
 * Transaction Subprocess
 
-Events
+事件
 ------
 
 * Cancel Event
@@ -41,7 +40,7 @@ Events
 * Terminate Event
 * Timer Event
 
-Data
+数据
 ----
 
 * Data Object
@@ -49,10 +48,9 @@ Data
 
 .. note::
 
-    Spiff's Data Store implementation is abstract; Spiff can parse a Data Store, but does not
-    provide any built-in mechanism for reading and writing to it.
+    Spiff的数据存储实现是抽象的；Spiff可以解析数据存储，但不提供任何内置的读写机制。
 
-Loops
+循环
 -----
 
 * Loop Task
@@ -62,6 +60,4 @@ Loops
 
 .. note::
 
-    Parallel MultiInstance tasks are *not* executed by SpiffWorkflow in parallel.  SpiffWorkflow
-    merely indicates that parallel tasks become ready at the same time and that the workflow
-    engine may execute them in parallel.
+    并行多实例任务不是由SpiffWorkflow并行执行的。SpiffWorkflow仅指示并行任务同时准备就绪，并且工作流引擎可以并行执行这些任务。

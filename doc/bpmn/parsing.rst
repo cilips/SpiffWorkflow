@@ -14,7 +14,8 @@
 Importing
 ---------
 
-每个BPMN模块 (:code:`bpmn`, :code:`spiff`, or :code:`camunda`) 具有用该模块中的规范预配置的解析器（如果特定的TaskSpec没有在该模块中实现，:code:`bpmn` TaskSpec is used).
+每个BPMN模块 (:code:`bpmn`, :code:`spiff`, 或者 :code:`camunda`) 具有用该模块中的规范预配置的解析器
+（如果特定的TaskSpec没有在该模块中实现，:code:`bpmn` TaskSpec is used).
 
 - :code:`bpmn`: :code:`from SpiffWorkflow.bpmn.parser import BpmnParser`
 - :code:`dmn`: :code:`from SpiffWorkflow.dmn.parser import BpmnDmnParser`
@@ -23,7 +24,8 @@ Importing
 
 .. note::
 
-   默认解析程序无法解析DMN文件。这个:code:`BpmnDmnParser` 扩展默认解析器以添加该功能。两者 :code:`spiff` and :code:`camunda` 解析器继承自 :code:`BpmnDmnParser`.
+   默认解析程序无法解析DMN文件。这个:code:`BpmnDmnParser` 扩展默认解析器以添加该功能。
+两者 :code:`spiff` and :code:`camunda` 解析器继承自 :code:`BpmnDmnParser`.
 
 解析器的实例化没有必需的参数，但有几个可选参数。
 
@@ -44,7 +46,8 @@ Validation
 规格说明
 -----------------
 
-默认设置 :code:`decription` 每个任务规范的属性。该描述旨在以用户友好的方式表示任务类型。它是XML标记到字符串的映射。
+默认设置 :code:`decription` 每个任务规范的属性。该描述旨在以用户友好的方式表示任务类型。
+它是XML标记到字符串的映射。
 
 默认的描述集可以在中找到 :code:`SpiffWorkflow.bpmn.parser.spec_descriptions`.
 
@@ -79,15 +82,16 @@ Validation
 .. note::
 
     该解析器被设计为加载一组文件并解析一个进程，并将引发一个 :code:`ValidationException`
-   如果存在任何重复的ID。可用的进程会立即添加到 :code:`process_parsers`, 因此，重新添加文件将生成一个异常。因此，如果我们遇到问题（这里的具体情况）或希望重用同一个解析器，我们需要清除此属性。
+   如果存在任何重复的ID。可用的进程会立即添加到 :code:`process_parsers`, 因此，重新添加文件将生成一个异常。
+因此，如果我们遇到问题（这里的具体情况）或希望重用同一个解析器，我们需要清除此属性。
 
 添加文件的其他方法
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- :code:`add_bpmn_files_by_glob`: Loads files from a glob instead of a list.
-- :code:`add_bpmn_file`: Adds one file rather than a list.
-- :code:`load_bpmn_str`: Loads and parses XML from a string.
-- :code:`load_bpmn_io`: Loads and parses XML from an object implementing the IO interface.
+- :code:`add_bpmn_files_by_glob`: 从glob而不是列表加载文件。
+- :code:`add_bpmn_file`: 添加一个文件而不是列表。
+- :code:`load_bpmn_str`: 从字符串中加载和解析XML。
+- :code:`load_bpmn_io`: 从实现IO接口的对象加载和解析XML。
 - :code:`load_bpmn_xml`: Parses BPMN from an :code:`lxml` parsed tree.
 
 .. _parsing_subprocesses:
@@ -97,7 +101,8 @@ Validation
 
 在内部，调用活动和子流程（以及事务子流程）都被视为单独的规范。这是为了防止单个规范变得太大，尤其是在同一个过程规范将被多次调用的情况下。
 
-这个 :code:`get_subprocess_specs` 方法获取进程ID，并递归地搜索由所提供的BPMN文件使用或定义的调用活动、子进程等。它返回进程ID到已解析规范的映射。
+这个 :code:`get_subprocess_specs` 方法获取进程ID，并递归地搜索由所提供的BPMN文件使用或定义的调用活动、子进程等。
+它返回进程ID到已解析规范的映射。
 
 查找依赖项的其他方法
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -121,5 +126,6 @@ Validation
             self.parser.process_parsers = {}
             raise exc
 
-为协作中的每个流程创建一个规范，并且这些流程中的每个都封装在一个子工作流中。这意味着以这种方式创建的规范将始终需要子流程规范，并且此方法返回生成的规范（与BPMN文件中的任何内容都不直接对应）以及文件中存在的流程和利润依赖关系。
+为协作中的每个流程创建一个规范，并且这些流程中的每个都封装在一个子工作流中。
+这意味着以这种方式创建的规范将始终需要子流程规范，并且此方法返回生成的规范（与BPMN文件中的任何内容都不直接对应）以及文件中存在的流程和利润依赖关系。
 

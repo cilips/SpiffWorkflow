@@ -1,10 +1,10 @@
 .. _patterns:
 
-Supported Workflow Patterns
+支持的工作流模式
 ===========================
 
 .. HINT::
-   All examples are located
+   所有示例都位于
    `here <https://github.com/sartography/SpiffWorkflow/tree/main/tests/SpiffWorkflow/core/data>`_
 
 Control-Flow Patterns
@@ -54,7 +54,7 @@ Control-Flow Patterns
 42. Thread Split [control-flow/thread_split.xml]
 43. Explicit Termination [control-flow/explicit_termination.xml]
 
-Workflow Data Patterns
+工作流数据模式
 ----------------------
 
 1. Task Data [data/task_data.xml]
@@ -69,9 +69,9 @@ Workflow Data Patterns
 10. Block Task to Sub-Workflow Decomposition [data/block_to_subworkflow.xml]
 11. Sub-Workflow Decomposition to Block Task [data/subworkflow_to_block.xml]
 
-Specs that have no corresponding workflow pattern on workflowpatterns.com
+workflowpatterns.com 上没有相应工作流模式的规范
 -------------------------------------------------------------------------
 
-- Execute - spawns a subprocess and waits for the results
-- Transform - executes commands that can be used for data transforms
-- Celery - executes a Celery task (see http://celeryproject.org/)
+- Execute - 生成一个子流程并等待结果
+- Transform - 执行可用于数据转换的命令
+- Celery - 执行Celery任务 (see http://celeryproject.org/)

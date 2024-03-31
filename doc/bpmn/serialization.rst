@@ -1,31 +1,30 @@
-Introduction
+介绍
 ============
 
-Given the long-running nature of many workflows, robust serialization capabilities are critical to any kind of
-workflow execution library.  We face several problems in serializing workflows:
+考虑到许多工作流的长期运行特性，强健的序列化功能对于任何类型的工作流执行库。
+在序列化工作流时，我们面临以下几个问题：
 
-- workflows may contain arbitrary data whose serialization mechanisms cannot be built into the library itself
-- workflows may contain custom tasks and these also cannot be built into the library
-- workflows may contain hundreds of tasks, generating very large serializations
-- objects contained in the workflow data might also be very large
-- the serialized data needs to be stored somewhere and there is no one-size-fits-all way of doing this
+- 工作流可能包含任意数据，这些数据的序列化机制无法构建到库本身中
+- 工作流可能包含自定义任务，而且这些任务也不能内置到库中
+- 工作流可能包含数百个任务，生成非常大的序列化
+- 工作流数据中包含的对象也可能非常大
+- 序列化的数据需要存储在某个地方，并且没有一种一刀切的方法
 
-In the first section of this document, we'll show how to handle the first problem.
+在本文档的第一部分中，我们将展示如何处理第一个问题。
 
-:doc:`custom_task_spec` contains an example of handling the second problem.
+:doc:`custom_task_spec` 包含处理第二个问题的示例。
 
-In the second section of this document, we'll discuss some of the ways the remaining problems might be alleviated
-though creative use of the serializer's capabilities.
+在本文档的第二部分中，我们将讨论通过创造性地使用序列化程序的功能来缓解剩余问题的一些方法。
 
 .. _serializing_custom_objects:
 
-Serializing Custom Objects
+序列化自定义对象
 ==========================
 
-In :doc:`script_engine`, we add some custom methods and objects to our scripting environment.  We create a simple
-class (a :code:`namedtuple`) that holds the product information for each product.
+在 :doc:`script_engine`, 我们将一些自定义方法和对象添加到脚本环境中。
+我们创建一个简单的类 (a :code:`namedtuple`) 其保存每个产品的产品信息。
 
-We'd like to be able to save and restore our custom object.  This code lives in :app:`spiff/product_info.py`.
+我们希望能够保存和恢复我们的自定义对象。 此代码位于 :app:`spiff/product_info.py`.
 
 .. code:: python
 
@@ -42,7 +41,7 @@ We'd like to be able to save and restore our custom object.  This code lives in 
     def product_info_from_dict(dct):
         return ProductInfo(**dct)
 
-And in :app:`spiff/custom_object.py`:
+同时在 :app:`spiff/custom_object.py`:
 
 .. code-block:: python
 
@@ -53,92 +52,79 @@ And in :app:`spiff/custom_object.py`:
     registry.register(ProductInfo, product_info_to_dict, product_info_from_dict)
     serializer = FileSerializer(dirname, registry=registry)
 
-We don't have any custom task specs in this example, so we can use the default serializer configuration for the
-module we're using.  We'll use the :app:`spiff/serializer/file/serializer.py` serializer.  This is a very simple
-serializer -- it converts the entire workflow to the default JSON format and writes it to disk in a readable
-way.
+在这个例子中，我们没有任何自定义任务规范，所以我们可以使用我们正在使用的模块的默认序列化程序配置。
+我们将使用 :app:`spiff/serializer/file/serializer.py` 序列化器。
+这是一个非常简单的序列化程序——它将整个工作流转换为默认的JSON格式，并以可读的方式将其写入磁盘。
 
 .. note::
 
-    The default :code:`BpmnWorkflowSerializer` has a `serialize_json` method that essentially does the same thing,
-    except without formatting the JSON.  We bypass this so we can intercept the JSON-serializable representation
-    and write it ourselves to a location of our choosing.
+     :code:`BpmnWorkflowSerializer` 默认有一个 `serialize_json` 方法, 本质上做同样的事情，
+    除非不格式化JSON。我们绕过这一点，这样我们就可以截取JSON可序列化表示，并将其自己写入我们选择的位置。
 
-We initialize a :code:`registry` using the serializer; this registry contains the conversions for the objects
-used workflow-internally.
+我们初始化 :code:`registry` 使用所述序列化程序；此注册表包含工作流内部使用的对象的转换。
 
-Now we can add our custom serialization methods to this registry using the :code:`registry.register` method.  The
-arguments here are:
+现在，我们可以使用 :code:`registry.register` 方法。这里的论点是：
 
-- the class that requires serialization
-- a method that creates a dictionary representation of the object
-- a method that recreates the object from that representation
+- 需要序列化的类
+- 创建对象的字典表示的方法
+- 从该表示重新创建对象的方法
 
-Registering an object sets up relationships between the class and the serialization and deserialization methods.
+注册对象将建立类与序列化和反序列化方法之间的关系。
 
-The :code:`register` method assigns a :code:`typename` for the class, and generates partial functions that call the
-appropriate methods based on the :code:`typename`, and stores *these* conversion mechanisms.
+这个 :code:`register` 方法分配了一个 :code:`typename` 对于该类，
+并生成部分函数，这些函数基于 :code:`typename`, 并存储*这些*转换机制。
 
 .. note::
 
-    The supplied :code:`to_dict` and :code:`from_dict` methods must always return and accept dictionaries, even if
-    they might have been serialized some other way.
+    提供的 :code:`to_dict` 和 :code:`from_dict` 方法必须始终返回和接受字典，即使它们可能已经以其他方式序列化。
 
-    If you're interested in how this works, the heart of the registry is the
+    如果您对它的工作方式感兴趣，注册表的核心是
     `DictionaryConverter <https://github.com/sartography/SpiffWorkflow/blob/main/SpiffWorkflow/bpmn/serializer/helpers/dictionary.py>`_.
 
-    The price is a slightly less customizable serialized format; the benefit is that these partial functions can
-    replace humongous :code:`if/else` blocks that test for specific classes and attributes.
+    代价是一种稍微不那么可定制的序列化格式；
+好处是这些部分函数可以取代巨大的 :code:`if/else` 测试特定类和属性的块。
 
-Optimizing Serializations
+优化序列化
 =========================
 
-File Serializer
+文件序列化程序
 ---------------
 
-Now we'll turn to the customizations we made in the :app:`serializer/file/serializer.py`.
+现在我们将转到我们在 :app:`serializer/file/serializer.py`.
 
-We've extended the :code:`BpmnWorkflowSerializer` to take a directory where we'll write our files, and additionally
-we'll impose some structure inside this dictionary.  We'll separate serialized workflow specs from instance data, and
-set an output format that we can actually read.
+我们已经扩展了 :code:`BpmnWorkflowSerializer` 获取一个目录，我们将在其中编写文件，此外，我们将在此字典中强加一些结构。
+我们将从实例数据中分离序列化的工作流规范，并设置我们可以实际读取的输出格式。
 
-Our engine requires a certain API from our serializer, and that's what the remainder of the methods are.  We won't
-go into these method here, as they don't *actually* have much to do with the library.  We made few (the
-:app:`spiff/custom_object.py`) or no modifications (the :app:`spiff/file.py`) so there isn't much to discuss.
+我们的引擎需要来自我们的序列化程序的特定API，这就是其余方法。
+我们不会在这里讨论这些方法，因为它们实际上与库没有太大关系。我们用很少 (the
+:app:`spiff/custom_object.py`) 或者没有修改 (the :app:`spiff/file.py`) 所以没什么可讨论的。
 
-We call `self.to_dict` and `self.from_dict`, which handle all conversions based on how we've set up the 
+We call `self.to_dict` 和 `self.from_dict`, 根据我们设置的方式处理所有转换
 :code:`registry`.
 
 .. note::
 
-    We haven't referenced any particular code, as almost all the code here is about managing our directory
-    structure and formatting the JSON output appropriately.
+    我们没有引用任何特定的代码，因为这里几乎所有的代码都是关于管理目录结构和适当格式化JSON输出的。
 
-The file serializer is actually *not* particularly optimized, but it is simple to understand, while also providing
-the evidence that you probably want to do more.  The output here is essentially the what you get by default.  This
-useful to be able to easily see in and of itself, and if you examine it, you'll see there would be a lot of
-opportunity for splitting the output into its components and handling them separately.
+文件序列化程序实际上并没有经过特别优化，但它很容易理解，同时还提供你可能想做得更多的证据。
+这里的输出基本上就是默认情况下得到的结果。
+这很有用，可以很容易地看到内部和内部，如果你检查它，你会发现有很多机会将输出拆分为其组件并单独处理它们。
 
-SQLite Serializer
+SQLite序列化程序
 -----------------
 
-We have a second example serializer that stores serializations in a SQLite database in
-:app:`serializer/sqlite/serializer.py`.  This might be a slightly more realistic use case of what you want to do,
-so we'll discuss this in a little more detail (but it is also a considerably more complex example).
+我们有第二个示例序列化程序，它将序列化存储在中的SQLite数据库中 :app:`serializer/sqlite/serializer.py`.
+这可能是您想要做的事情的一个稍微更现实的用例，
+因此，我们将对此进行更详细的讨论（但这也是一个相当复杂的示例）。
 
-Our database schema actually takes care of much of the work, but since this isn't an SQL tutorial, I'll just refer you
-to the file that contains it: :app:`serializer/sqlite/schema.sql`.  Of course, you do not have to interact with the
-database directly (or even use a database at all) and some of all of the triggers and views and so forth could be
-replaced with Python code (or simplified quite a bit if using a more robust DB).
+我们的数据库模式实际上承担了大部分工作，但由于这不是SQL教程，我只向您介绍包含它的文件：:app:`serializer/sqlite/schema.sql`.
+当然，您不必直接与数据库交互（甚至根本不必使用数据库），所有触发器和视图等中的一些都可以用Python代码替换（如果使用更健壮的数据库，则可以简化很多）。
 
-This is intended to be a somewhat extreme example in order to make it clear that you really aren't bound to
-retrieving and storing a gigantic blob, and the logic for dealing with it does not have to be interspersed with the
-rest of your code.
+这是一个有点极端的例子，目的是表明你真的不必检索和存储一个巨大的blob，处理它的逻辑也不必与代码的其余部分穿插在一起。
 
-In addition to our triggers, we also rely pretty heavily on SQLite adapters.  Between these two things, we hardly
-have to worry about the types of objects we get back at all!
+除了触发器之外，我们还非常依赖SQLite适配器。在这两件事之间，我们几乎不必担心我们得到的物体的类型！
 
-From our :code:`execute` method:
+来自我们的 :code:`execute` 方法:
 
 .. code-block:: python
 
@@ -149,11 +135,10 @@ From our :code:`execute` method:
     sqlite3.register_adapter(dict, lambda v: json.dumps(v))
     sqlite3.register_converter("json", lambda s: json.loads(s))
 
-We use :code:`UUID` for spec and instance IDs and store all our workflow data as JSON.  Our serializer guarantees
-that its output will be JSON-serializable, so when we store it, we can just drop its output right into the DB, and
-feed the DB output back into the serializer.
+我们使用 :code:`UUID` 用于规范和实例ID，并将我们所有的工作流数据存储为JSON。
+我们的序列化程序保证它的输出将是JSON可序列化的，所以当我们存储它时，我们可以将它的输出直接放入DB，并将DB输出反馈到序列化程序中。
 
-To help this process along, we've customized a few of the default conversions for our specs.
+为了帮助这个过程，我们为我们的规格定制了一些默认转换。
 
 .. code-block:: python
 
@@ -180,12 +165,10 @@ To help this process along, we've customized a few of the default conversions fo
             dct['task_specs'] = list(dct['task_specs'].values())
             return dct
 
-We aren't making extensive customizations here, mainly just switching some dictionaries to lists; this is because we
-store these items in separate tables, so it's convenient to get an output that can be passed directly to an
-:code:`insert` statement.
+我们在这里没有进行广泛的自定义，主要是将一些词典切换为列表；这是因为我们将这些项存储在单独的表中，
+因此可以方便地获得可以直接传递给的输出 :code:`insert` statement.
 
-When we configure our engine, we update the serializer configuration to use these classes (this code is from
-:app:`spiff/sqlite.py`:
+当我们配置引擎时，我们会更新序列化程序配置以使用这些类, 此代码来自 :app:`spiff/sqlite.py`:
 
 .. code-block:: python
 
@@ -209,7 +192,7 @@ When we configure our engine, we update the serializer configuration to use thes
     registry = SqliteSerializer.configure(DEFAULT_CONFIG)
     serializer = SqliteSerializer(dbname, registry=registry)
 
-Finally, let's look at two of the methods we've implemented for the API required by our engine:
+最后，让我们看看我们为引擎所需的API实现的两种方法：
 
 .. code-block:: python
 
@@ -240,41 +223,31 @@ Finally, let's look at two of the methods we've implemented for the API required
                 workflow.subprocesses[sp_id] = self.from_dict(sp, task=task, top_workflow=workflow)
         return workflow
 
-We store subprocesses in the same table as top level processes because they are essentially the same thing.
-We maintain a table that stores the parent/child relationships in a separate spec dependency table.  While we don't do
-this currently, we could modify our queries to ignore subprocesses that have been completed when we retrieve a workflow:
-they could potentially contain many tasks that will never be revisited.  Or, conversely, we could limit what we restore
-to subprocesses that had :code:`READY` tasks to avoid loading something that is waiting for a timer that will fire in
-two weeks.
+我们将子流程存储在与顶级流程相同的表中，因为它们本质上是相同的。
+我们维护一个表，该表将父/子关系存储在一个单独的规范依赖关系表中。虽然我们目前没有这样做，
+但我们可以修改查询以忽略检索工作流时已完成的子流程：它们可能包含许多永远不会被重新访问的任务。
+或者，相反地，我们可以将恢复的内容限制在具有 :code:`READY` 任务，以避免加载正在等待两周后启动的计时器的内容。
 
-We did not show the code for serializing workflow specs, but it is similar -- all specs, whether top-level or for
-subprocesses and call activities live in one table, with a second that keeps track of dependencies between them.  This
-would make it possible to wait to load a spec until the task it was associated with needed to be executed.
+我们没有显示用于序列化工作流规范的代码，但它是相似的——所有规范，无论是顶级规范还是子流程和调用活动的规范，
+都位于一个表中，第二个表跟踪它们之间的依赖关系。这将使您可以等待加载规范，直到需要执行与其相关联的任务。
 
-We also maintain task data separately from information about workflow state; so while we're not doing this now, it provides
-the potential to selectively retrieve it -- for example, it could be omitted from :code:`COMPLETED` tasks.
+我们还将任务数据与工作流状态信息分开维护；
+因此，虽然我们现在不这么做，但它提供了选择性地检索它的可能性——例如，它可以从中省略 :code:`COMPLETED` 任务.
 
-What I aim to get across here is that there are quite a few possiblities for customizing how your application serializes
-its workflows -- you're not limited to a giant JSON blob that you get by default.
+我在这里要传达的是，有很多可能性可以自定义应用程序如何序列化其工作流——您不局限于默认情况下获得的巨大JSON blob。
 
 
-Serialization Versions
+序列化版本
 ======================
 
-As we make changes to Spiff, we may change the serialization format.  For example, in 1.2.1, we changed
-how subprocesses were handled interally in BPMN workflows and updated how they are serialized and we upraded the
-serializer version to 1.1.
+当我们对Spiff进行更改时，我们可能会更改序列化格式。例如，在1.2.1中，我们更改了
+如何在BPMN工作流中相互处理子流程，并更新了它们的序列化方式，我们将序列化程序版本升级到1.1。
 
-Since workflows can contain arbitrary data, and even SpiffWorkflow's internal classes are designed to be customized in ways
-that might require special serialization and deserialization, it is possible to override the default version number, to
-provide users with a way of tracking their own changes.
+由于工作流可以包含任意数据，甚至SpiffWorkflow的内部类也被设计为以可能需要特殊序列化和反序列化的方式进行自定义，
+因此可以覆盖默认版本号，为用户提供跟踪自己更改的方法。
 
-If you have not provided a custom version number, SpiffWorkflow will attempt to migrate your workflows from one version
-to the next if they were serialized in an earlier format.
+如果您没有提供自定义版本号，SpiffWorkflow将尝试将工作流从一个版本迁移到下一个版本（如果它们是以早期格式序列化的）。
 
-If you've overridden the serializer version, you may need to incorporate our serialization changes with
-your own.  You can find our migrations in
+如果您已经重写了序列化程序版本，您可能需要将我们的序列化更改为你自己的。您可以在
 `SpiffWorkflow/bpmn/serilaizer/migrations <https://github.com/sartography/SpiffWorkflow/tree/main/SpiffWorkflow/bpmn/serializer/migration>`_
-
-These are broken up into functions that handle each individual change, which will hopefully make it easier to incoporate them
-into your upgrade process, and also provides some documentation on what has changed.
+中找到我们的迁移, 这些功能被分解为处理每个单独更改的功能，这有望使它们更容易融入升级过程，并提供一些关于更改内容的文档。

@@ -1,22 +1,19 @@
 脚本引擎概述
 ======================
 
-You may need to modify the default script engine, whether because you need to make additional
-functionality available to it, or because you might want to restrict its capabilities for
-security reasons.
+您可能需要修改默认脚本引擎，无论是因为您需要为其提供额外的功能，还是因为出于安全原因，您可能希望限制其功能。
 
 .. warning::
 
-   By default, the scripting environment passes input directly to :code:`eval` and :code:`exec`!  In most
-   cases, you'll want to replace the default scripting environment with one of your own.
+   默认情况下，脚本环境将输入直接传递给 :code:`eval` 及 :code:`exec`!  在大多数情况下，您需要将默认的脚本环境替换为自己的脚本环境。
 
 限制脚本环境
 ==================================
 
-The following example replaces the default global enviroment with the one provided by
+以下示例将默认全局环境替换为
 `RestrictedPython <https://restrictedpython.readthedocs.io/en/latest/>`_
 
-We've modified our engine configuration to use the restricted environment in :app:`spiff/restricted.py`
+我们已经修改了引擎配置，以便在中使用受限制的环境 :app:`spiff/restricted.py`
 
 .. code:: python
 
@@ -26,55 +23,46 @@ We've modified our engine configuration to use the restricted environment in :ap
     restricted_env = TaskDataEnvironment(safe_globals)
     restricted_script_engine = PythonScriptEngine(environment=restricted_env)
 
-We've also included a dangerous process in :bpmn:`dangerous.bpmn`
+我们还包括了一个危险的过程 :bpmn:`dangerous.bpmn`
 
-If you run this process using the regular script enviromment, the BPMN process will get the OS process ID and
-prompt you to kill it; if you answer 'Y', it will do so (it won't actually do anything more dangerous than screw
-up your terminal settings, but hopefully proves the point).
+如果您使用常规脚本environment运行此进程，BPMN进程将获得操作系统进程ID并提示您终止它；
+如果你回答“是”，它会这么做（它实际上不会做比搞砸你的终端设置更危险的事情，但希望能证明这一点）。
 
 .. code-block:: console
 
     ./runner.py -e spiff_example.spiff.file add -p end_it_all -b bpmn/tutorial/dangerous.bpmn
     ./runner.py -e spiff_example.spiff.file
 
-If you load the restricted engine:
+如果加载受限制的引擎：
 
 .. code-block:: console
 
     ./runner.py -e spiff_example.spiff.restricted
 
-You'll get an error, because imports have been restricted.
+你会得到一个错误，因为导入受到限制。
 
 .. note::
 
-    Since we used exactly the same parser and serializer, we can simply switch back and forth between these
-    two script engines (that is the only difference between the two configurations).
+    由于我们使用了完全相同的解析器和序列化程序，因此我们可以简单地在它们之间来回切换两个脚本引擎（这是两种配置之间的唯一区别）。
 
 使自定义类和函数可用
 =============================================
 
-Another reason you might want to customize the scripting environment is to provide access to custom
-classes or functions.
+您可能想要自定义脚本环境的另一个原因是提供对自定义脚本的访问类或函数。
 
-In many of our example models, we use DMN tables to obtain product information.  DMN is a convenient
-way of making table data available to our processes.
+在我们的许多示例模型中，我们使用DMN表来获取产品信息。DMN是一个方便的使表格数据可用于我们的流程的方式。
 
-However, in a slightly more realistic scenario,  we would surely have information about how the product
-could be customized in a database somewhere.  We would not hard code product information in our diagram
-(although it is much easier to modify the BPMN and DMN models than to change the code itself!).  Our
-shipping costs would not be static, but would depend on the size of the order and where it was being
-shipped -- maybe we'd query an API provided by our shipper.
+然而，在一个稍微现实一点的场景中，我们肯定会有关于如何在某个地方的数据库中定制产品的信息。
+我们不会在图表中对产品信息进行硬编码（尽管修改BPMN和DMN模型比更改代码本身容易得多！）。
+我们的运输成本不会是静态的，而是取决于订单的规模和地点发货——也许我们会查询发货人提供的API。
 
-SpiffWorkflow is obviously **not** going to know how to query **your** database or make API calls to
-**your** vendors.  However, one way of making this functionality available inside your diagram is to
-implement the calls in functions and add those functions to the scripting environment, where they
-can be called by Script Tasks.
+SpiffWorkflow显然**不会**知道如何查询**您的**数据库或对**您的***供应商进行API调用。
+但是，在图中提供此功能的一种方法是在函数中实现调用，并将这些函数添加到脚本环境中，在脚本环境中脚本任务可以调用这些函数。
 
-We are not going to actually include a database or API and write code for connecting to and querying
-it, but since we only have 7 products we can model our database with a simple dictionary lookup
-and just return the same static info for shipping for the purposes of the tutorial.
+我们不会实际包含数据库或API，也不会编写用于连接和查询它的代码，但由于我们只有7种产品，
+因此我们可以通过简单的字典查找对数据库进行建模，并返回相同的静态信息以供本教程使用。
 
-We'll customize our scripting environment in :app:`spiff/custom_object.py`:
+我们将在中自定义脚本环境 :app:`spiff/custom_object.py`:
 
 .. code:: python
 
@@ -106,32 +94,28 @@ We'll customize our scripting environment in :app:`spiff/custom_object.py`:
 
 .. note::
 
-    We're also adding :code:`datetime`, because other parts of the process require it.
+    我们还添加了 :code:`datetime`, 因为过程的其他部分需要它。
 
-We can use the custom functions in script tasks like any normal function.  To load the example diagrams that use the
-custom script engine:
+我们可以像使用任何普通函数一样，在脚本任务中使用自定义函数。要加载使用自定义脚本引擎的示例图，请执行以下操作：
 
 .. code-block:: console
 
     ./runner.py -e spiff_example.spiff.custom_object add -p order_product \
         -b bpmn/tutorial/{top_level_script,call_activity_script}.bpmn
 
-If you start the application in interactive mode and choose a product, you'll see tuple info reflected in the task data
-after selecting a product.
+如果您在交互模式下启动应用程序并选择产品，您将在选择产品后看到任务数据中反映的元组信息。
 
 服务任务
 =============
 
-We can also use Service Tasks to accomplish the same goal. Service Tasks are also executed by the workflow's script
-engine, but through a different method, with the help of some custom extensions in the :code:`spiff` module:
+我们也可以使用服务任务来实现相同的目标。服务任务也由工作流的脚本引擎执行，但通过不同的方法，借助中的一些自定义扩展 :code:`spiff` 模块:
 
-- `operation_name`, the name assigned to the service being called
-- `operation_params`, the parameters the operation requires
+- `operation_name`, 分配给被调用服务的名称
+- `operation_params`, 操作所需的参数
 
-The advantage of a Service Task is that it is a bit more transparent what is happening (at least at a conceptual level)
-than function calls embedded in a Script Task.
+服务任务的优点是，它比嵌入脚本任务中的函数调用更透明（至少在概念层面上）。
 
-We implement the :code:`PythonScriptEngine.call_service` method in :app:`spiff/service_task.py`:
+我们执行 :code:`PythonScriptEngine.call_service` 方法在 :app:`spiff/service_task.py`:
 
 .. code:: python
 
@@ -157,19 +141,16 @@ We implement the :code:`PythonScriptEngine.call_service` method in :app:`spiff/s
 
     service_task_engine = ServiceTaskEngine()
 
-Instead of adding our custom functions to the environment, we'll override :code:`call_service` and call them directly
-according to the `operation_name` that was given.  The :code:`spiff` Service Task also evaluates the parameters
-against the task data for us, so we can pass those in directly.  The Service Task will also store our result in
-a user-specified variable.
+而不是将我们的自定义功能添加到环境中,我们会重写:code:`call_service` 并根据直接呼叫这个 `operation_name` 已经给出了。
+这个 :code:`spiff` Service Task还根据任务数据为我们评估参数，因此我们可以直接传入这些参数。
+服务任务还将把我们的结果存储在用户指定的变量中。
 
-We need to send the result back as json, so we'll reuse the functions we wrote for the serializer (see
-:ref:`serializing_custom_objects`).
+我们需要将结果作为json发送回来，因此我们将重用为序列化程序编写的函数 (查看 :ref:`serializing_custom_objects`).
 
-The Service Task will assign the dictionary as the operation result, so we'll add a `postScript` to the Service Task
-that retrieves the product information that creates a :code:`ProductInfo` instance from the dictionary, so we need to
-add that to the scripting enviroment too.
+服务任务将分配字典作为操作结果，所以我们将添加一个 `postScript` 到服务任务，
+该任务检索创建 :code:`ProductInfo` 实例，所以我们也需要将其添加到脚本环境中。
 
-The XML for the Service Task looks like this:
+服务任务的XML如下所示：
 
 .. code:: xml
 
@@ -186,21 +167,18 @@ The XML for the Service Task looks like this:
       <bpmn:outgoing>Flow_06k811b</bpmn:outgoing>
     </bpmn:serviceTask>
 
-Getting this information into the XML is a little bit beyond the scope of this tutorial, as it involves more than
-just SpiffWorkflow.  I hand edited it for this case, but you can hardly ask your BPMN authors to do that!
+将这些信息输入XML有点超出了本教程的范围，因为它不仅仅涉及SpiffWorkflow。
+我为这个案例手工编辑了它，但你很难要求你的BPMN作者这么做！
 
-Our `modeler <https://github.com/sartography/bpmn-js-spiffworkflow>`_ has a means of providing a list of services and
-their parameters that can be displayed to a BPMN author in the Service Task configuration panel.  There is an example of
-hard-coding a list of services in
+我们的 `modeler <https://github.com/sartography/bpmn-js-spiffworkflow>`_ 具有提供服务及其参数列表的方法，
+这些服务及其参数可以在服务任务配置面板中显示给BPMN作者。 中有一个对服务列表进行硬编码的示例
 `app.js <https://github.com/sartography/bpmn-js-spiffworkflow/blob/0a9db509a0e85aa7adecc8301d8fbca9db75ac7c/app/app.js#L47>`_
-and as suggested, it would be reasonably straightforward to replace this with a API call.  
-`SpiffArena <https://www.spiffworkflow.org/posts/articles/get_started/>`_ has robust mechanisms for handling this that
-might serve as a model for you.
+正如所建议的那样，用API调用替换它将是相当简单的。
+`SpiffArena <https://www.spiffworkflow.org/posts/articles/get_started/>`_ 具有强大的处理机制，可以作为您的模型。
 
-How this all works is obviously heavily dependent on your application, so we won't go into further detail here, except
-to give you a bare bones starting point for implementing something yourself that meets your own needs.
+这一切的工作方式显然在很大程度上取决于您的应用程序，因此我们在此不再赘述，只是为您提供一个自己实现满足自己需求的东西的基本起点。
 
-To run this workflow:
+要运行此工作流，请执行以下操作：
 
 .. code-block:: console
 
