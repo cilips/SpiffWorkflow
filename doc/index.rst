@@ -25,8 +25,7 @@ SpiffWorkflow 是构成 `Spiff Arena <https://github.com/sartography/spiff-arena
 它由一个通用核心库组成，其中包含支持BPMN图解析和执行的包，这些包扩展了这个核心。
 
 有关 BPMN 以及 SpiffWorkflow 如何解释它的大量文档，以及有关自定义扩展的信息
-在 :code:`spiff`
-`Spiff Arena documentation <https://spiff-arena.readthedocs.io/en/latest/>`_. 能找到。
+在 :code:`spiff` `Spiff Arena documentation <https://spiff-arena.readthedocs.io/en/latest/>`_. 能找到。
 如果您不熟悉BPMN，您应该从那里开始。如果您正在寻找一个完整的BPMN应用程序，您可以从那里开始并结束。
 这文档将侧重于库本身，并面向正在构建自己的库的开发人员使用。
 
@@ -41,9 +40,9 @@ Spiff Workflow 基于
 
 支持
 -------
-你能在 `our Discord Channel <https://discord.gg/BYHcc7PpUC>`_ 找到支持
+你能在 `our Discord Channel <https://discord.gg/BYHcc7PpUC>`_ 找到支持。
 
-SpiffWorkflow 商业支持在 `Sartography <https://sartography.com>`_
+SpiffWorkflow 商业支持在 `Sartography <https://sartography.com>`_ 。
 
 
 内容
