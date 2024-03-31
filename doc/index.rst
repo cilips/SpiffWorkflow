@@ -20,7 +20,7 @@ SpiffWorkflow 是什么?
 
 **SpiffWorkflow 是一个库，提供了一个灵活的工作流执行环境。**
 
-SpiffWorkflow 是工作流库 `Spiff Arena <https://github.com/sartography/spiff-arena>`_ 的基础。
+SpiffWorkflow 是构成 `Spiff Arena <https://github.com/sartography/spiff-arena>`_ 的基础工作流库。
 
 它由一个通用核心库组成，其中包含支持BPMN图解析和执行的包，这些包扩展了这个核心。
 
