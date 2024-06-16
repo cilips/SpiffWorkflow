@@ -12,9 +12,9 @@
 我们将主要关注引擎，因为它包含与库的接口，尽管其他组件会提供一些示例。与处理用户输入和在终端中显示信息所需的代码相比，该引擎相当小且简单。
 配置是在python模块中设置的，并使用“-e”参数传递到应用程序中，该参数从该文件加载配置的引擎。这种设置应该使其相对改变发动机的行为。包括以下配置：
 
-- :code:`spiff_example.spiff.file`: 使用spiff BPMN扩展并序列化为JSON文件
-- :code:`spiff_example.spiff.sqlite`: 使用spiff BPMN扩展并序列化到SQLite
-- :code:`spiff_example.camunda.default`: 使用Camunda扩展并序列化到SQLite
+- :code:`spiff_example.spiff.file`: 使用 spiff BPMN 扩展并序列化为JSON文件
+- :code:`spiff_example.spiff.sqlite`: 使用 spiff BPMN 扩展并序列化到SQLite
+- :code:`spiff_example.camunda.default`: 使用 Camunda 扩展并序列化到SQLite
 
 .. _quickstart:
 

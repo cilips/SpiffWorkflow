@@ -21,7 +21,7 @@ SpiffWorkflow 由几个模块组成。该包中包含的模块及其结构都是
 
 该模块扩展了核心库实现，以支持 BPMN 图的解析和执行。
 
-- :code:`bpmn.specs` 扩展了核心库的基本规范，以实现中的通用 BPMN 属性和行为, 任务规范以两种方式扩展：
+:code:`bpmn.specs` 扩展了核心库的基本规范，以实现中的通用 BPMN 属性和行为, 任务规范以两种方式扩展：
 为所有BPMN任务提供通用行为 (:code:`bpmn.specs.mixins.bpmn_spec_mixin.BpmnSpecMixin`) 和 特定类型的行为 (:code:`bpmn.specs.mixins`)。
 允许任意一类属性分别扩展。
 - BPMN 包中的工作流实现以与核心库采用完全不同的方式处理子工作流。它反序列化程序已被完全替换。允许对具有特定 BPMN 属性的任务进行筛选和迭代。

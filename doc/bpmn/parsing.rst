@@ -24,10 +24,9 @@ Importing
 
 .. note::
 
-   默认解析程序无法解析DMN文件。这个:code:`BpmnDmnParser` 扩展默认解析器以添加该功能。
-两者 :code:`spiff` and :code:`camunda` 解析器继承自 :code:`BpmnDmnParser`.
-
-解析器的实例化没有必需的参数，但有几个可选参数。
+   默认解析程序无法解析DMN文件。这个 :code:`BpmnDmnParser` 扩展默认解析器以添加该功能。
+   两者 :code:`spiff` and :code:`camunda` 解析器继承自 :code:`BpmnDmnParser`.
+   解析器的实例化没有必需的参数，但有几个可选参数。
 
 Validation
 ----------
