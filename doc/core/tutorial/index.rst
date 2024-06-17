@@ -43,7 +43,7 @@
 .. literalinclude:: start.py
 
 :meth:`SpiffWorkflow.Workflow.complete_all` 根据规范完成所有任务，直到没有其他任务可供执行。
-请注意，这并不意味着工作流是在调用:meth:`SpiffWorkflow.Workflow.complete_all`，
+请注意，这并不意味着工作流是在调用 :meth:`SpiffWorkflow.Workflow.complete_all` ，
 因为例如，某些任务可能正在等待，或者可能被另一个等待任务阻止。
 
 

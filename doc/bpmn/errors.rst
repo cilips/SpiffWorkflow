@@ -3,19 +3,19 @@ SpiffWorkflow异常
 
 有关SpiffWorkflow中异常和异常层次结构的详细信息
 
-SpiffWorkflowException
+SpiffWorkflow异常
 ----------------------
 SpiffWorkflow引发的所有异常的基本异常
 
 验证异常
 -------------------
 
-**Extends**
+**继承**
 SpiffWorkflowException
 
 在分析工作流时抛出。
 
-**Attributes/Methods**
+**属性/方法**
 
 - **tag**:  正在分析的xml标记的类型
 - **id**:  xml标记的id属性（如果可用）。
@@ -29,10 +29,10 @@ SpiffWorkflowException
 -----------------
 当任务规范发生错误时（可能应该称为SpecException）
 
-**Extends**
+**继承**
 SpiffWorkflowException
 
-**Attributes/Methods**
+**属性/方法**
 
 - **task_spec**:  TaskSpec-导致错误发生的特定任务、网关等。
 - **error**:  描述问题的人工可读错误消息。
@@ -42,10 +42,10 @@ SpiffWorkflowException
 ---------------------
 发生异常时，在任务和数据对象之间移动数据（包括数据输入和数据输出）
 
-**Extends**
+**继承**
 WorkflowException
 
-**Attributes/Methods**
+**属性/方法**
 
 （除了WorkflowException中的值之外）
 
@@ -55,13 +55,13 @@ WorkflowException
 
 WorkflowTaskException
 ---------------------
-**Extends**
+**继承**
 WorkflowException
 
 它将接受line_number和error_line作为参数-如果提供的基本错误是SyntaxError，它将尝试从错误中派生此信息。
 如果这是一个名称错误，它将尝试计算一个你是说error_msg吗。
 
-**Attributes/Methods**
+**属性/方法**
 
 （除了WorkflowException中的值之外）
 

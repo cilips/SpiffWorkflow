@@ -9,12 +9,12 @@
   转而构建和测试BPMN模型！
 
 SpiffWorkflow的早期用户严重依赖Camunda的建模器，我们的几个任务规范实现都是基于Camunda扩展的。
-对这些扩展的支持已转移到:code:`camunda`包中。
+对这些扩展的支持已转移到 :code:`camunda` 包中。
 我们不会积极维护此软件包（尽管我们将接受Camunda用户的贡献！）。
 请注意，将出现在Camunda编辑器中的许多Camunda扩展不适用于SpiffWorkflow。
 
 
-在本回购中，我们提供以下配置：
+在本章节中，我们提供以下配置：
 
 .. code-block:: console
 
@@ -62,7 +62,7 @@ Spiff的设置方式可以使用任何您想要的模板库，但我们使用了
 示例代码
 ------------
 
-示例人工任务处理程序可以在:app:`camunda/curses_handlers.py`中找到。
+示例人工任务处理程序可以在 :app:`camunda/curses_handlers.py` 中找到。
 
 事件
 ======

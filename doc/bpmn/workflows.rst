@@ -295,11 +295,11 @@ SpiffWorkflow有两种检索任务的方法：
 子流程和呼叫活动
 ================================
 
-在本文档的第一节中，我们注意到 :code:`BpmnWorkflow`是用顶级规范以及任何引用进程的规范集合实例化的。
-实例化的:code:`BpmnSubWorkflows` 被维护为:code:`subprocesses` 属性中的 :code:`task.id`到 :code:`BpmnSubworkflow`的映射。
+在本文档的第一节中，我们注意到 :code:`BpmnWorkflow` 是用顶级规范以及任何引用进程的规范集合实例化的。
+实例化的 :code:`BpmnSubWorkflows` 被维护为 :code:`subprocesses` 属性中的 :code:`task.id` 到 :code:`BpmnSubworkflow` 的映射。
 
-这两个类都继承自:code:`Workflow`，并在单独的任务树中维护任务。
-但是，只有:code:`BpmnWorkflow`维护子工作流信息；甚至深度嵌套的工作流也存储在顶层（以便于访问）。
+这两个类都继承自 :code:`Workflow` ，并在单独的任务树中维护任务。
+但是，只有 :code:`BpmnWorkflow` 维护子工作流信息；甚至深度嵌套的工作流也存储在顶层（以便于访问）。
 
 任务迭代的工作方式也不同。:code:`Bpmworkflow.get_tasks` 已扩展为检索与任务相关联的子工作流，并对这些子工作流进行迭代；
 在 :code:`BpmnSubWorkflow` 中迭代任务时，将只返回该工作流中的任务。
@@ -320,24 +320,24 @@ SpiffWorkflow有两种检索任务的方法：
 - :code:`subworkflow.parent_task_id` 返回与工作流关联的任务的UUID
 - :code:`parent_workflow`: 返回堆栈中位于其正上方的工作流
 
-这些方法也存在于顶级工作流中，并返回 :code:`None`.
+这些方法也存在于顶级工作流中，并返回 :code:`None` .
 
 事件
 ======
 
-BPMN事件由:code:`BpmnEvent`类表示。
-此类的一个实例包含一个:code:`EventDefinition`、一个可选的有效负载、定义它们的消息的消息相关性，以及（也可选）一个目标子工作流。
+BPMN事件由 :code:`BpmnEvent` 类表示。
+此类的一个实例包含一个 :code:`EventDefinition` 、一个可选的有效负载、定义它们的消息的消息相关性，以及（也可选）一个目标子工作流。
 最后一个属性由SpiffWorkflow内部由需要与其他子工作流通信的子工作流使用, 并且可以被安全地忽略。
 
-:code:`EventDefinition`和:code:`BpmnEvent` BpmnEvent'之间的关系类似于:code:`TaskSpec`的关系`
-定义BPMN事件的:code:`Task`：一个:code:`TaskSpec`具有额外的:code:`event_definition`属性，该属性包含有关将被捕获或引发的事件的信息。
+:code:`EventDefinition` 和 :code:`BpmnEvent` BpmnEvent之间的关系类似于 :code:`TaskSpec` 的关系
+定义BPMN事件的 :code:`Task`：一个 :code:`TaskSpec` 具有额外的 :code:`event_definition` 属性，该属性包含有关将被捕获或引发的事件的信息。
 
-当抛出事件时，将使用与任务的规范和有效负载（如果适用）关联的 :code:`EventDefinition` 创建:code:`BpmnEvent`。
-对于具有有效载荷的事件，:code:`EventDefinition`将定义如何基于工作流实例创建有效载荷，并将其包含在事件中。
+当抛出事件时，将使用与任务的规范和有效负载（如果适用）关联的 :code:`EventDefinition` 创建 :code:`BpmnEvent` 。
+对于具有有效载荷的事件，:code:`EventDefinition` 将定义如何基于工作流实例创建有效载荷，并将其包含在事件中。
 Timer Event将知道如何解析和计算所提供的表达式, 等等。
 
-事件将传递给:code:`workflow.catch` 方法，该方法将迭代所有任务，并将事件传递给等待该事件的任何任务。
-如果工作流中没有捕获事件的任务，则事件将被放置在挂起的事件队列中，并且可以使用:code:`workflow.get_events`方法检索这些事件。
+事件将传递给 :code:`workflow.catch` 方法，该方法将迭代所有任务，并将事件传递给等待该事件的任何任务。
+如果工作流中没有捕获事件的任务，则事件将被放置在挂起的事件队列中，并且可以使用 :code:`workflow.get_events` 方法检索这些事件。
 
 .. note::
 
@@ -346,7 +346,7 @@ Timer Event将知道如何解析和计算所提供的表达式, 等等。
 此repo中的应用程序设计为运行单个工作流，因此没有任何外部事件处理。
 如果您实现了这样的功能，您将需要一种方法来确定任何检索到的事件应该发送到哪个进程。
 
-:code:`workflow.waiting_events` 将返回一个:code:`PendingBpmnEvents`列表，该列表包含事件的名称和类型，可用于帮助确定这一点。
+:code:`workflow.waiting_events` 将返回一个 :code:`PendingBpmnEvents` 列表，该列表包含事件的名称和类型，可用于帮助确定这一点。
 
-一旦您确定了哪个工作流应该接收事件，就可以将其传递给:code:`workflow.catch`来处理它。
+一旦您确定了哪个工作流应该接收事件，就可以将其传递给 :code:`workflow.catch` 来处理它。
 
