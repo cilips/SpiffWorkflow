@@ -33,10 +33,12 @@ class ServiceTaskDelegate:
 
         return json.dumps(sample_response)
 
+
 class ExampleCustomScriptEngine(PythonScriptEngine):
     def call_service(self, operation_name, operation_params, task_data):
-        return ServiceTaskDelegate.call_connector(operation_name, operation_params,
-                task_data)
+        return ServiceTaskDelegate.call_connector(operation_name,
+                                                  operation_params, task_data)
+
 
 class ServiceTaskTest(BaseTestCase):
 
@@ -45,9 +47,10 @@ class ServiceTaskTest(BaseTestCase):
         assertEqual = self.assertEqual
 
         spec, subprocesses = self.load_workflow_spec('service_task.bpmn',
-                'service_task_example1')
+                                                     'service_task_example1')
         self.script_engine = ExampleCustomScriptEngine()
-        self.workflow = BpmnWorkflow(spec, subprocesses, script_engine=self.script_engine)
+        self.workflow = BpmnWorkflow(spec, subprocesses,
+                                     script_engine=self.script_engine)
 
     def testRunThroughHappy(self):
         self.workflow.do_engine_steps()

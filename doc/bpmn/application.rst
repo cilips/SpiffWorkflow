@@ -78,7 +78,7 @@
 我们使用配置模块来允许这些组件在工作流引擎本身之外定义并传递作为参数，使实验更容易。我经常被问到为什么图表没有按预期执行，或者如何使脚本引擎以特定方式工作；这是第一次设置,
 对我来说，这比配置库的测试加载程序并在调试器中运行它更有效；我希望其他人也会发现它很有用。
 
-我们将在后面的章节中更详细地介绍配置，但我们将简要介绍最简单的配置，:app:`spiff/file.py` here.
+我们将在后面的章节中更详细地介绍配置，但我们将简要介绍最简单的配置，:app:`spiff/file.py` 。
 
 在这个文件中，我们将初始化我们的解析器：
 
@@ -86,7 +86,7 @@
 
     parser = SpiffBpmnParser()
 
-我们不需要进一步自定义这个解析器——这是一个内置的解析器，可以处理DMN文件以及SpiffBPMN扩展
+我们不需要进一步自定义这个解析器：这是一个内置的解析器，可以处理DMN文件以及SpiffBPMN扩展。
 
 我们还需要初始化一个序列化程序：
 
@@ -97,7 +97,7 @@
     registry = FileSerializer.configure(SPIFF_CONFIG)
     serializer = FileSerializer(dirname, registry=registry)
 
-JSON规范和工作流将存储在 :code:`wfdata`.  这个 :code:`registry` 是维护有关将Python对象转换为JSON可序列化字典形式以及从JSON可序列化词典形式转换Python对象的信息的地方。 :code:`SPIFF_CONFIG` 告诉序列化程序如何处理Spiff内部使用的对象。工作流也可以包含任意数据，因此此注册表还可以告诉序列化程序如何处理工作流中的任何不可序列化数据。我们将在中详细介绍 :ref:`serializing_custom_objects`.
+JSON规范和工作流将存储在 :code:`wfdata`， :code:`registry` 是维护有关将Python对象转换为JSON可序列化字典形式以及从JSON可序列化词典形式转换Python对象的信息的地方。 :code:`SPIFF_CONFIG` 告诉序列化程序如何处理Spiff内部使用的对象。工作流也可以包含任意数据，因此此注册表还可以告诉序列化程序如何处理工作流中的任何不可序列化数据。我们将在中详细介绍 :ref:`serializing_custom_objects` 。
 
 我们初始化脚本环境：
 

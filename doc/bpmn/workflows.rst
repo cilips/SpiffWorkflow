@@ -19,7 +19,7 @@
 
 在最简单的情况下，运行工作流需要实现以下循环：
 
-* 运行任何 `READY`引擎任务 (where :code:`task_spec.manual == False`)
+* 运行任何 `READY`引擎任务 ( :code:`task_spec.manual == False` )
 * 向用户显示`READY`人工任务（如果有）
 * 如有必要，更新人工任务数据
 * 运行人工任务
@@ -106,7 +106,7 @@ BPMN任务规范具有以下附加属性:
 
 请记住 :code:`bpmn` 模块不提供用于从用户收集信息的任何默认能力，这是你必须实现的。
 在本例中，我们将假设使用的是
-:code:`spiff` 模块（在:code:`camunda`模块中有一个替代实现）。
+:code:`spiff` 模块（在 :code:`camunda` 模块中有一个替代实现）。
 
 Spiff Arena使用JSON模式定义与用户任务和
 `react-jsonschema-form <https://github.com/rjsf-team/react-jsonschema-form>`_ 以渲染它们。
@@ -129,7 +129,7 @@ Spiff Arena使用JSON模式定义与用户任务和
         return instructions
 
 我们不会试图在curses UI中处理Markdown，所以我们假设我们只有文本。
-然而，我们确实希望能够将特定于工作流的数据纳入呈现给用户的信息中；这是您的应用程序肯定需要做的事情。
+然而，我们确实希望能够将特定于工作流的数据纳入呈现给用户的信息中；这是您的应用程序 **必须** 要做的事情。
 在这里，我们使用Task的 :code:`data` 属性（记住这是一个字典）来呈现模板。
 
 我们的应用程序包含一个 :code:`Field` 类（在 :app:`curses_ui/user_input.py` 中定义），
@@ -163,7 +163,7 @@ Spiff Arena使用JSON模式定义与用户任务和
 接下来我们将学习一个简单的例子。
 
 我们将参考 :bpmn:`task_types.bpmn` 中建模的流程，该流程包含一个简单的表单，要求用户输入产品和数量，
-以及一个在流程结束时显示订单信息的手动任务（该表单定义为:form:`select_product_and_quantity.json`)
+以及一个在流程结束时显示订单信息的手动任务（该表单定义为 :form:`select_product_and_quantity.json` )
 
 用户提交表单后，我们将在以下词典中收集结果：
 
@@ -205,9 +205,9 @@ Spiff Arena使用JSON模式定义与用户任务和
 脚本和服务任务
 ------------------------
 
-有关Spiff如何处理这些任务的更多信息，请参阅:doc:`script_engine`。
+有关Spiff如何处理这些任务的更多信息，请参阅 :doc:`script_engine`。
 没有默认的服务任务实现，但我们将介绍一个在那里实现的方法示例。
-脚本任务假定:code:`script` 属性包含Python脚本的文本，该脚本在任务数据的上下文中执行。
+脚本任务假定 :code:`script` 属性包含Python脚本的文本，该脚本在任务数据的上下文中执行。
 
 .. _task_filters:
 
@@ -221,12 +221,12 @@ SpiffWorkflow有两种检索任务的方法：
 
 这两个方法都使用相同的辅助类，并采用相同的参数——唯一的区别是返回类型。
 
-这些方法返回一个 :code:`TaskIterator`，然后使用一个 :code:`TaskFilter`来确定匹配的任务。
+这些方法返回一个 :code:`TaskIterator`，然后使用一个 :code:`TaskFilter` 来确定匹配的任务。
 
 
 任务可以通过以下方式进行筛选：
 
-- :code:`state`: 一个:code:`TaskState` 值（有关可能的状态，请参阅 :ref:`states'）
+- :code:`state`: 一个 :code:`TaskState` 值（有关可能的状态，请参阅 :ref:`states` ）
 - :code:`spec_name`: 任务规范的名称（通常对应于BPMN ID）
 - :code:`manual`: 任务规范是否需要手动输入
 - :code:`updated_ts`: 将结果限制在提供的时间戳之后
@@ -242,7 +242,7 @@ SpiffWorkflow有两种检索任务的方法：
 - :bpmn:`top_level.bpmn`
 - :bpmn:`call_activity.bpmn`
 
-要按状态进行筛选，我们需要导入 :code:`TaskState`对象（除非您想记住哪些数字对应于哪些状态）。
+要按状态进行筛选，我们需要导入 :code:`TaskState` 对象（除非您想记住哪些数字对应于哪些状态）。
 
 
 .. code-block:: python
@@ -270,7 +270,7 @@ SpiffWorkflow有两种检索任务的方法：
 
     tasks = workflow.get_tasks(spec_name='customize_product')
 
-将返回一个列表，其中包含用于在我们的示例工作流中定制产品的Call Activities 。
+将返回一个列表，其中包含用于在我们的示例工作流中定制产品的 Call Activities 。
 
 
 任务更新时间
@@ -290,7 +290,7 @@ SpiffWorkflow有两种检索任务的方法：
 
      ready_tasks = workflow.get_tasks(state=TaskState.READY, lane='Customer')
 
-在我们的示例工作流中，将只返回'Customer'通道中的任务。
+在我们的示例工作流中，将只返回 **Customer** 通道中的任务。
 
 子流程和呼叫活动
 ================================

@@ -22,9 +22,9 @@
 ==========================
 
 在 :doc:`script_engine`, 我们将一些自定义方法和对象添加到脚本环境中。
-我们创建一个简单的类 (a :code:`namedtuple`) 其保存每个产品的产品信息。
+我们创建一个简单的类 (:code:`namedtuple`) 其保存每个产品的产品信息。
 
-我们希望能够保存和恢复我们的自定义对象。 此代码位于 :app:`spiff/product_info.py`.
+我们希望能够保存和恢复我们的自定义对象。 此代码位于 :app:`spiff/product_info.py` 。
 
 .. code:: python
 
